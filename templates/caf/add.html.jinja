@@ -1,0 +1,40 @@
+{% extends 'base.html.jinja' %}
+{% block title %}Ajouter une année{% endblock %}
+{% block body %}
+    <div class="row align-items-center h-100">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('add_caf') }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
+            {{ form.csrf_token }}
+            <div class="mx-auto text-center my-4">
+                <h2 class="my-3">Ajouter une année</h2>
+            </div>
+            <div class="form-group">
+                <label>Annee</label>
+                <input type="text" class="form-control" name="annee">
+                {% for error in form.annee.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Recettes</label>
+                    <input type="text" name="recettes" class="form-control">
+                    {% for error in form.recettes.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Depenses</label>
+                    <input type="text" name="depenses" class="form-control">
+                    {% for error in form.depenses.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+            <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
+        </form>
+    </div>
+{% endblock body %}

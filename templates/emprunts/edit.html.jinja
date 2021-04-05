@@ -1,0 +1,61 @@
+{% extends 'base.html.jinja' %}
+{% block title %}Modifier un emprunt{% endblock %}
+{% block body %}
+    <h1 class="text-center my-4">Modifier un jeu</h1>
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="bg-success py-3 px-3">
+                    <form action="/game/edit/{{ game.0 }}" method="post">
+                        {{ form.csrf_token }}
+                        <div class="form-group">
+                            <label for="model">Titre</label>
+                            <input type="text" class="form-control" name="titre" value="{{ game.1 }}"></input>
+                            {% for error in form.titre.errors %}
+                                <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
+
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Description</label>
+                            <textarea class="form-control" name="description"
+                                      value="{{ game.2 }}">{{ game.2 }}</textarea>
+                            {% for error in form.description.errors %}
+                                <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Plateforme</label>
+                            <select class="form-control" name="plateforme">
+                                <option value="{{ game.3 }}" selected>{{ game.3 }} (Actuelle)</option>
+                                <option value="PC">PC</option>
+                                <option value="PS4">PS4</option>
+                                <option value="PS5">PS5</option>
+                                <option value="Xbox One">Xbox One</option>
+                                <option value="Xbox Series">Xbox Series</option>
+                                <option value="Nintendo Switch">Nintendo Switch</option>
+                                <option value="Multi-Plateforme">Multi-Plateforme</option>
+                            </select>
+                            {% for error in form.plateforme.errors %}
+                                <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Note</label>
+                            <input type="number" class="form-control" name="note" value="{{ game.4 }}"></input>
+                            {% for error in form.note.errors %}
+                                <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

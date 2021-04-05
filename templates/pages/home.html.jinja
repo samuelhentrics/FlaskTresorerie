@@ -1,0 +1,138 @@
+{% extends 'base.html.jinja' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+        {% if session['loggedin'] %}
+            <h2 class="h3 mb-4 page-title">
+                Bienvenue {{ session['user']['firstname'] }} {{ session['user']['lastname'] }}</h2>
+            <div class="row mt-5 align-items-center">
+                <div class="col-md-3 text-center mb-5">
+                    <div class="avatar avatar-xl">
+                        <img src="{{ url_for("static", filename=session['user']['avatar']) }}" alt="..."
+                             class="avatar-img rounded-circle">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <h3 class="mb-1">{{ session['user']['firstname'] }} {{ session['user']['lastname'] }}</h3>
+                            <h4><span class="badge badge-dark">{{ session['user']['fonction'] }}</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body my-n3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                          <span class="circle circle-lg bg-light">
+                            <i class="fe fe-user fe-24 text-primary"></i>
+                          </span>
+                                </div> <!-- .col -->
+                                <div class="col">
+                                    <a href="{{ url_for("profil") }}">
+                                        <h3 class="h5 mt-4 mb-1">Profil</h3>
+                                    </a>
+                                    <p class="text-muted">Jeter un oeil sur votre profil ou modifier le.</p>
+                                </div> <!-- .col -->
+                            </div> <!-- .row -->
+                        </div> <!-- .card-body -->
+                        <div class="card-footer">
+                            <a href="{{ url_for("profil") }}" class="d-flex justify-content-between text-muted"><span>Profil</span><i
+                                    class="fe fe-chevron-right"></i></a>
+                        </div> <!-- .card-footer -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md-->
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body my-n3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                          <span class="circle circle-lg bg-light">
+                            <i class="fe fe-shield fe-24 text-primary"></i>
+                          </span>
+                                </div> <!-- .col -->
+                                <div class="col">
+                                    <a href="{{ url_for("emprunts") }}">
+                                        <h3 class="h5 mt-4 mb-1">Emprunts</h3>
+                                    </a>
+                                    <p class="text-muted">Regardez les emprunts par années ou par mois.</p>
+                                </div> <!-- .col -->
+                            </div> <!-- .row -->
+                        </div> <!-- .card-body -->
+                        <div class="card-footer">
+                            <a href="{{ url_for("emprunts") }}" class="d-flex justify-content-between text-muted">
+                                <span>Emprunts</span>
+                                <i class="fe fe-chevron-right"></i>
+                            </a>
+                        </div> <!-- .card-footer -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md-->
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body my-n3">
+                            <div class="row align-items-center">
+                                <div class="col-3 text-center">
+                          <span class="circle circle-lg bg-light">
+                            <i class="fe fe-bell fe-24 text-primary"></i>
+                          </span>
+                                </div> <!-- .col -->
+                                <div class="col">
+                                    <a href="{{ url_for("caf") }}">
+                                        <h3 class="h5 mt-4 mb-1">CAF</h3>
+                                    </a>
+                                    <p class="text-muted">S'informer sur la CAF de la Mairie.</p>
+                                </div> <!-- .col -->
+                            </div> <!-- .row -->
+                        </div> <!-- .card-body -->
+                        <div class="card-footer">
+                            <a href="{{ url_for("caf") }}" class="d-flex justify-content-between text-muted">
+                                <span>CAF</span>
+                                <i class="fe fe-chevron-right"></i>
+                            </a>
+                        </div> <!-- .card-footer -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md-->
+            </div> <!-- .row-->
+        {% else %}
+            <div class="w-50 mx-auto text-center justify-content-center py-3 my-3">
+                <h2 class="page-title mb-0">Bienvenue sur la trésorerie </h2>
+                <p class="lead text-muted mb-4">Mairie de {{ nom_ville }}</p>
+            </div>
+            <div class="row my-4">
+                <div class="col-md-6">
+                    <div class="card shadow bg-primary text-center mb-4">
+                        <div class="card-body p-5">
+                          <span class="circle circle-md bg-primary-light">
+                            <i class="fe fe-navigation fe-24 text-white"></i>
+                          </span>
+                            <h3 class="h4 mt-4 mb-1 text-white">Se connecter</h3>
+                            <p class="text-white mb-4">Connectez-vous afin d'avoir accès à la trésorerie</p>
+                            <a href="{{ url_for("login") }}" class="btn btn-lg bg-primary-light text-white">
+                                Connection<i class="fe fe-arrow-right fe-16 ml-2"></i>
+                            </a>
+                        </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md-->
+                <div class="col-md-6">
+                    <div class="card shadow bg-success text-center mb-4">
+                        <div class="card-body p-5">
+                          <span class="circle circle-md bg-success-light">
+                            <i class="fe fe-message-circle fe-24 text-white"></i>
+                          </span>
+                            <h3 class="h4 mt-4 mb-1 text-white">Informations</h3>
+                            <p class="text-white mb-4">Plus d'informations sur le site</p>
+                            <a href="{{ url_for("home") }}"
+                               class="btn btn-lg bg-success-light text-white">Informations<i
+                                    class="fe fe-arrow-right fe-16 ml-2"></i></a>
+                        </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                </div> <!-- .col-md-->
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

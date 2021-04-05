@@ -1,0 +1,79 @@
+{% extends 'base.html.jinja' %}
+{% block title %}Ajouter un emprunt{% endblock %}
+{% block body %}
+    <div class="row align-items-center h-100">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('add_emprunt') }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
+            {{ form.csrf_token }}
+            <div class="mx-auto text-center my-4">
+                <h2 class="my-3">Ajouter un emprunt</h2>
+            </div>
+            <div class="form-group">
+                <label>Libelle</label>
+                <input type="text" class="form-control" name="libelle">
+                {% for error in form.libelle.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Capital de départ</label>
+                <input type="text" class="form-control" name="capitaldepart">
+                {% for error in form.capitaldepart.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Capital</label>
+                    <input type="text" name="capital" class="form-control">
+                    {% for error in form.capital.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Interet</label>
+                    <input type="text" name="interet" class="form-control">
+                    {% for error in form.interet.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Date du début</label>
+                    <input type="date" name="date" class="form-control">
+                    {% for error in form.date.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Preteur</label>
+                    <input type="text" class="form-control" name="preteur">
+                    {% for error in form.preteur.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Periodicité</label>
+                    <input type="text" name="periodicite" class="form-control">
+                    {% for error in form.periodicite.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Echeance</label>
+                    <input type="text" class="form-control" name="echeance">
+                    {% for error in form.echeance.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+            <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
+        </form>
+    </div>
+{% endblock body %}

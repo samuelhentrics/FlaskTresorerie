@@ -1,0 +1,42 @@
+{% extends 'base.html.jinja' %}
+
+{% block title %}Emprunts{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+        <h2 class="mb-2 page-title">Liste des emprunts de l'année {{ annee }}</h2>
+        <div class="row my-4">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <table class="table datatables" id="dataTable-1">
+                            <thead>
+                            <tr>
+                                <th>Mois</th>
+                                <th>Capital</th>
+                                <th>Interêt</th>
+                                <th width="10%">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for emprunt in emprunts %}
+                                <tr>
+                                    <td>{{ emprunt['month_name'] }}</td>
+                                    <td>{{ emprunt['capital'] }}</td>
+                                    <td>{{ emprunt['interet'] }}</td>
+                                    <td>
+                                        <a href="{{ annee }}/{{ emprunt['date'] }}" type="button"
+                                           class="btn mb-2 btn-primary">
+                                            <span class="fe fe-arrow-right fe-16"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

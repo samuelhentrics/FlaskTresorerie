@@ -1,0 +1,74 @@
+{% extends 'base.html.jinja' %}
+
+{% block title %}Emprunts{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+        <div class="row align-items-center my-4">
+            <div class="col">
+                <h2 class="h3 mb-0 page-title">Liste des emprunts</h2>
+            </div>
+            <a href="{{ url_for('add_emprunt') }}">
+                <button type="button" class="btn btn-primary"><span class="fe fe-plus fe-12 mr-2"></span>Ajouter un
+                    emprunt
+                </button>
+            </a>
+            <button type="button" class="btn mb-2 btn-success"><span class="fe fe-play fe-12 mr-2"></span>Simulation
+                d'emprunt
+            </button>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <table class="table datatables" id="dataTable-1">
+                        <thead>
+                        <tr>
+                            <th>Année</th>
+                            <th>Capital</th>
+                            <th>Interêt</th>
+                            <th width="10%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for emprunt in emprunts %}
+                            <tr>
+                                <td>{{ emprunt['date'] }}</td>
+                                <td>{{ emprunt['capital'] }}</td>
+                                <td>{{ emprunt['interet'] }}</td>
+                                <td>
+                                    <a href="{{ url_for('emprunts_annee', annee=emprunt['date']) }}" type="button"
+                                       class="btn mb-2 btn-primary">
+                                        <span class="fe fe-arrow-right fe-16"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav class="mb-0 text-muted">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item {% if prev < 1 %} disabled {% endif %}">
+                                <a class="page-link" href="{{ url_for('emprunts', page=prev) }}">
+                                    <span>&laquo;</span>
+                                </a>
+                            </li>
+                            {% for p in pages %}
+                                <li class="page-item {% if p == page %} active {% endif %}">
+                                    <a class="page-link" href="{{ url_for('emprunts', page=p) }}">{{ p }}</a>
+                                </li>
+                            {% endfor %}
+                            <li class="page-item {% if prev > (maximum - 2) %} disabled {% endif %}">
+                                <a class="page-link" href="{{ url_for('emprunts', page=next) }}">
+                                    <span>&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html.jinja' %}
+{% block title %}Modifier un utilisateur{% endblock %}
+{% block body %}
+    <div class="row align-items-center h-100">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('profil_edit', id=data['id']) }}" method="post"
+              class="col-lg-6 col-md-8 col-10 mx-auto">
+            {{ form.csrf_token }}
+            <div class="mx-auto text-center my-4">
+                <h2 class="my-3">Modifier un utilisateur</h2>
+            </div>
+            <div class="form-group">
+                <label>Adresse mail</label>
+                <input class="form-control" name="email" value="{{ data['email'] }}">
+                {% for error in form.email.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Prénom</label>
+                    <input type="text" name="firstname" class="form-control" value="{{ data['firstname'] }}">
+                    {% for error in form.firstname.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Nom</label>
+                    <input type="text" name="lastname" class="form-control" value="{{ data['lastname'] }}">
+                    {% for error in form.lastname.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Fonction</label>
+                    <input type="text" name="fonction" class="form-control" value="{{ data['fonction'] }}">
+                    {% for error in form.fonction.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Téléphone</label>
+                    <input type="text" name="telephone" class="form-control" value="{{ data['telephone'] }}">
+                    {% for error in form.telephone.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Adresse</label>
+                <input type="text" class="form-control" name="adresse" value="{{ data['adresse'] }}">
+                {% for error in form.adresse.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <hr class="my-4">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input class="form-control" name="password" value="{{ data['password'] }}">
+                    {% for error in form.password.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-2">Requis pour le mot de passe</p>
+                <p class="small text-muted mb-2"> Pour créer un nouveau mot de passe, vous devez respecter tous les
+                    requis </p>
+                <ul class="small text-muted pl-4 mb-0">
+                    <li>Minimum 3 caractères</li>
+                    <li>Au moins un caractère spécial</li>
+                    <li>Au moins un chiffre</li>
+                </ul>
+            </div>
+    </div>
+    {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+    <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
+    </form>
+    </div>
+{% endblock body %}
