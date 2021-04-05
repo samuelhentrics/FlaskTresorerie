@@ -4,6 +4,7 @@ Usage:
 ======
     python app.py
     Programme python (Application) principale pour lancer Flask
+    test
 """
 import math
 import MySQLdb
