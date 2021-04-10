@@ -108,18 +108,41 @@ def emprunts(page):
         return redirect(url_for('login'))
 
 
+@app.route('/emprunts/liste')
+def emprunts_list():
+    if 'loggedin' in session:
+        cur = conn.cursor(dictionary=True)
+        cur.execute('SELECT * '
+                    'FROM emprunts '
+                    'ORDER BY YEAR(date)')
+        data = cur.fetchall()
+        return render_template('emprunts/liste.html.jinja', emprunts=data, )
+
+
+@app.route('/emprunts/delete/<int:id>')
+def delete_emprunt(id):
+    cur = conn.cursor()
+    cur.execute('DELETE FROM emprunts WHERE id = {0}'.format(id))
+    conn.commit()
+    cur.execute('DELETE FROM details_emprunts WHERE emprunt_id ={0}'.format(id))
+    conn.commit()
+    flash('Cet emprunt a été supprimé', 'success')
+    return redirect(url_for('emprunts_list'))
+
+
 @app.route('/emprunts/<int:annee>')
 def emprunts_annee(annee):
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
         i = 1
         while i <= 12:
-            cur.execute('SELECT e.libelle AS libelle, e.capital AS capital, e.interet AS interet, e.date AS date, e.periodicite AS periodicite, de.restant AS restant, e.echeance AS echeance, e.preteur AS preteur '
-                        'FROM details_emprunts de '
-                        'INNER JOIN emprunts e '
-                        'ON e.id=de.emprunt_id '
-                        'WHERE YEAR(de.date)=%s AND MONTH(de.date)=%s'
-                        , (annee, i,))
+            cur.execute(
+                'SELECT e.libelle AS libelle, e.capital AS capital, e.interet AS interet, e.date AS date, e.periodicite AS periodicite, de.restant AS restant, e.echeance AS echeance, e.preteur AS preteur '
+                'FROM details_emprunts de '
+                'INNER JOIN emprunts e '
+                'ON e.id=de.emprunt_id '
+                'WHERE YEAR(de.date)=%s AND MONTH(de.date)=%s'
+                , (annee, i,))
             if i == 1:
                 janvier = cur.fetchall()
             elif i == 2:
@@ -171,8 +194,6 @@ def add_emprunt():
                 preteur = request.form['preteur']
                 cur = conn.cursor(buffered=True, dictionary=True)
                 try:
-                    capital = int(capital) / int(echeance)
-                    interet = int(interet) / int(echeance)
                     cur.execute(
                         "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, preteur)"
                         "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
@@ -184,25 +205,24 @@ def add_emprunt():
                     restant = int(echeance)
                     cur.execute('SELECT MAX(annee) AS annee FROM caf')
                     caf_annee_max = cur.fetchone()
-                    while restant > 0:
+                    print(datecours, 1)
+                    while restant >= 0:
                         cur.execute(
                             "INSERT INTO details_emprunts (date,emprunt_id,restant) "
                             "VALUES ('%s','%s','%s')" % (
                                 datecours, last_id['id'], restant))
                         conn.commit()
                         datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
-                        if caf_annee_max['annee'] < int(datecours.strftime('%Y')):
-                            cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
-                            exist = cur.fetchone()
-                            if not exist:
+                        cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                        exist = cur.fetchone()
+                        if not exist:
+                            cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                        "VALUES ('%s', '%s', '%s')" %
+                                        (int(datecours.strftime('%Y')) - 1, 0, 0))
+                            if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
                                 cur.execute("INSERT INTO caf (annee, recettes, depenses)"
                                             "VALUES ('%s', '%s', '%s')" %
                                             (int(datecours.strftime('%Y')), 0, 0))
-                                print(int(datecours.strftime('%Y')), 'hey hey')
-                            if int(datecours.strftime('%Y')) == caf_annee_max['annee']:
-                                cur.execute("INSERT INTO caf (annee, recettes, depenses)"
-                                            "VALUES ('%s', '%s', '%s')" %
-                                            (int(datecours.strftime('%Y')) + 1, 0, 0))
                         datecours = datecours.strftime('%Y-%m-%d')
                         restant = restant - 1
                     flash("Emprunt ajouté", 'success')
