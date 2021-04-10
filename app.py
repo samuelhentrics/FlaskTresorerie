@@ -145,7 +145,6 @@ def emprunts_annee(annee):
             elif i == 12:
                 decembre = cur.fetchall()
             i += 1
-        print(janvier, fevrier, mars, avril, mai, juin)
         return render_template('emprunts/details_annee.html.jinja', janvier=janvier, fevrier=fevrier, mars=mars,
                                avril=avril, mai=mai, juin=juin, juillet=juillet, aout=aout
                                , septembre=septembre, octobre=octobre, novembre=novembre, decembre=decembre,
