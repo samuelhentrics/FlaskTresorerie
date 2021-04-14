@@ -205,7 +205,6 @@ def add_emprunt():
                     restant = int(echeance)
                     cur.execute('SELECT MAX(annee) AS annee FROM caf')
                     caf_annee_max = cur.fetchone()
-                    print(datecours, 1)
                     while restant >= 0:
                         cur.execute(
                             "INSERT INTO details_emprunts (date,emprunt_id,restant) "
