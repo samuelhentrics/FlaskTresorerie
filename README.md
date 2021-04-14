@@ -4,7 +4,7 @@
 Ce projet à pour but de gerer les finances d'une mairie.
 
 
-# Dernière mise à jour
+# Dernière mise à jour (14/04/2021)
 - Ajout du logo
 - Suppression des fichiers inutiles
 - Modification des repertoires
