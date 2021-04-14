@@ -11,7 +11,7 @@ from flask import Flask, render_template, redirect, flash, url_for, request, ses
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 import ConfigApp
-from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF
+from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF
 from py.messages import Messages
 import locale
 import calendar
@@ -308,35 +308,32 @@ def add_caf():
         return redirect(url_for('login'))
 
 
-@app.route('/caf/edit', methods=['GET', 'POST'])
-def edit_caf():
+@app.route('/caf/edit/<int:annee>', methods=['GET', 'POST'])
+def edit_caf(annee):
     if 'loggedin' in session:
         error = None
-        form = AddCAF()
+        form = EditCAF()
+        cur = conn.cursor(dictionary=True)
+        cur.execute("SELECT recettes, depenses "
+                    "FROM caf WHERE annee = %s", (annee,))
+        data = cur.fetchone()
         if form.validate_on_submit():
             if request.method == 'POST':
-                annee = request.form['annee']
                 depenses = request.form['depenses']
                 recettes = request.form['recettes']
-                cur = conn.cursor()
-                cur.execute("SELECT annee FROM caf WHERE annee=%s", (annee,))
-                data = cur.fetchall()
-                if data:
-                    error = "L'année est déjà renseignée"
-                    return render_template('caf/add.html.jinja', form=form, error=error)
-                else:
-                    try:
-                        cur.execute(
-                            "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s','%s','%s')" % (
-                                annee, depenses, recettes))
-                        conn.commit()
-                        flash("CAF ajoutée", 'success')
-                        return redirect(url_for('caf'))
-                    except:
-                        flash("CAF non ajoutée", 'warning')
-                        conn.rollback()
-                        return redirect(url_for('caf'))
-        return render_template('caf/add.html.jinja', form=form, error=error)
+                try:
+                    cur.execute("UPDATE caf "
+                                "SET depenses= %s,recettes = %s"
+                                "WHERE annee=%s",
+                                (depenses, recettes, annee))
+                    conn.commit()
+                    flash("L'année a été modifiée", 'success')
+                    return redirect(url_for('caf'))
+                except:
+                    flash("CAF non modifiée", 'warning')
+                    conn.rollback()
+                    return redirect(url_for('caf'))
+        return render_template('caf/edit.html.jinja', form=form, error=error, caf=data, annee=annee)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))

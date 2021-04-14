@@ -28,7 +28,6 @@ class AddEmprunt(FlaskForm):
     submit = SubmitField(Messages.add_button)
 
 
-
 class AddUser(FlaskForm):
     firstname = StringField(validators=[DataRequired()])
     lastname = StringField(validators=[DataRequired()])
@@ -41,6 +40,7 @@ class AddUser(FlaskForm):
     email = StringField(validators=[DataRequired()])
     submit = SubmitField(Messages.add_button)
 
+
 class EditUser(FlaskForm):
     firstname = StringField(validators=[DataRequired()])
     lastname = StringField(validators=[DataRequired()])
@@ -51,8 +51,15 @@ class EditUser(FlaskForm):
     email = StringField(validators=[DataRequired()])
     submit = SubmitField(Messages.edit_button)
 
+
 class AddCAF(FlaskForm):
     annee = IntegerField(validators=[DataRequired()])
     depenses = IntegerField(validators=[DataRequired()])
     recettes = IntegerField(validators=[DataRequired()])
     submit = SubmitField(Messages.add_button)
+
+
+class EditCAF(FlaskForm):
+    depenses = IntegerField(validators=[DataRequired()])
+    recettes = IntegerField(validators=[DataRequired()])
+    submit = SubmitField(Messages.edit_button)

@@ -1,33 +1,26 @@
 {% extends 'base.html.jinja' %}
-{% block title %}CAF - Ajouter une année{% endblock %}
+{% block title %}CAF - Modifier une année{% endblock %}
 {% block body %}
     <div class="row align-items-center h-100">
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        <form action="{{ url_for('add_caf') }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
+        <form action="{{ url_for('edit_caf', annee=annee) }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
             {{ form.csrf_token }}
             <div class="mx-auto text-center my-4">
-                <h2 class="my-3">Ajouter une année</h2>
-            </div>
-            <div class="form-group">
-                <label>Annee</label>
-                <input type="text" class="form-control" name="annee">
-                {% for error in form.annee.errors %}
-                    <span class="badge badge-danger">{{ error }}</span>
-                {% endfor %}
+                <h2 class="my-3">Modifier l'année {{ annee }}</h2>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Recettes</label>
-                    <input type="text" name="recettes" class="form-control">
+                    <input type="text" name="recettes" class="form-control" value="{{ caf["recettes"] }}">
                     {% for error in form.recettes.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
                 <div class="form-group col-md-6">
                     <label>Depenses</label>
-                    <input type="text" name="depenses" class="form-control">
+                    <input type="text" name="depenses" class="form-control" value="{{ caf["depenses"] }}">
                     {% for error in form.depenses.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
                     {% endfor %}
