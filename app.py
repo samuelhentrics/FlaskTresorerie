@@ -44,7 +44,7 @@ locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('pages/home.html.jinja', nom_ville=Messages.ville_name)
+    return render_template('index.html.jinja', nom_ville=Messages.ville_name)
 
 
 # Login
