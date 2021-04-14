@@ -15,6 +15,7 @@ Reste à faire :
   - Emprunts simulation
   - Fonctionnalité profil (ex : modif mot de passe, ajout avatar...)
   - Ameliorer code emprunt (--> detail_annee.html.jinja)
+  - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
 
 # Anciennes mises à jour
  Non disponible
