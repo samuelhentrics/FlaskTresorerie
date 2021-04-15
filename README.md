@@ -5,6 +5,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
 # Dernière mise à jour (15/04/2021)
 - Amélioration du code permettant de récupérer les emprunts d'une année (--> detail_annee.html.jinja)
+- Modification de "mon profil" fonctionnel (sauf mot de passe)
 
 # Information dev
 **Reste à faire :**

@@ -8,7 +8,11 @@
             <div class="col-12 col-lg-10 col-xl-8">
                 <h2 class="h3 mb-4 page-title">Paramètres</h2>
                 <div class="my-4">
-                    <form>
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                    <form action="{{ url_for('profil') }}" method="post">
+                    {{ form.csrf_token }}
                         <div class="row mt-5 align-items-center">
                             <div class="col-md-3 text-center mb-5">
                                 <div class="avatar avatar-xl">
@@ -40,33 +44,48 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="firstname">Prénom</label>
-                                <input type="text" id="firstname" class="form-control"
+                                <input type="text" name="firstname" class="form-control"
                                        value="{{ session['user']['firstname'] }}">
+                                {% for error in form.firstname.errors %}
+                                    <span class="badge badge-danger">{{ error }}</span>
+                                {% endfor %}
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="lastname">Nom</label>
-                                <input type="text" id="lastname" class="form-control"
+                                <input type="text" name="lastname" class="form-control"
                                        value="{{ session['user']['lastname'] }}">
+                                {% for error in form.lastname.errors %}
+                                    <span class="badge badge-danger">{{ error }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputEmail4">Email</label>
-                            <input type="email" class="form-control" id="email" value="{{ session['user']['email'] }}">
+                            <input type="email" class="form-control" name="email" value="{{ session['user']['email'] }}">
+                            {% for error in form.email.errors %}
+                                    <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
                             <label for="inputAddress5">Adresse</label>
-                            <input type="text" class="form-control" id="adresse"
+                            <input type="text" class="form-control" name="adresse"
                                    value="{{ session['user']['adresse'] }}">
+                            {% for error in form.adresse.errors %}
+                                    <span class="badge badge-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputCompany5">Téléphone</label>
-                                <input type="text" class="form-control" id="telephone"
+                                <input type="text" class="form-control" name="telephone"
                                        value="{{ session['user']['telephone'] }}">
+                                {% for error in form.telephone.errors %}
+                                    <span class="badge badge-danger">{{ error }}</span>
+                                {% endfor %}
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputCompany5">Pseudo</label>
-                                <input type="text" disabled=disabled class="form-control" id="pseudo"
+                                <label for="inputCompany5">Pseudo (ne peut être changé)</label>
+                                <input type="text" disabled=disabled class="form-control" name="pseudo"
                                        value="{{ session['user']['pseudo'] }}">
                             </div>
                         </div>
@@ -97,7 +116,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sauvegarder le changement</button>
+                        {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
                     </form>
                 </div> <!-- /.card-body -->
             </div> <!-- /.col-12 -->

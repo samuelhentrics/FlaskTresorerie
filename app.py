@@ -7,11 +7,12 @@ Usage:
 """
 import math
 import MySQLdb
+import imghdr
 from flask import Flask, render_template, redirect, flash, url_for, request, session
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 import ConfigApp
-from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF
+from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil
 from py.messages import Messages
 import locale
 import calendar
@@ -32,12 +33,22 @@ __date__ = "21/08/02"
 app = Flask(__name__)
 bdd = ConfigApp.Config()  # création de l'objet bdd
 app.secret_key = bdd.SECRET_KEY  # clé secrète
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+app.config['UPLOAD_PATH'] = 'static/assets/avatars'
 conn = mysql.connector.connect(host=bdd.MYSQL_HOST,
                                user=bdd.MYSQL_USER,
                                password=bdd.MYSQL_PASSWORD,
                                database=bdd.MYSQL_DB)
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
+def validate_image(stream):
+    header = stream.read(512)  # 512 bytes should be enough for a header check
+    stream.seek(0)  # reset stream pointer
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return '.' + (format if format != 'jpeg' else 'jpg')
 
 # Accueil
 
@@ -326,10 +337,37 @@ def delete_caf(annee):
 
 # PROFIL
 
-@app.route('/profil')
+@app.route('/profil', methods=['GET', 'POST'])
 def profil():
     if 'loggedin' in session:
-        return render_template('profil/settings.html.jinja')
+        error = None
+        form = EditMyProfil()
+        cur = conn.cursor(buffered=True, dictionary=True)
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                firstname = request.form['firstname']
+                lastname = request.form['lastname']
+                telephone = request.form['telephone']
+                adresse = request.form['adresse']
+                email = request.form['email']
+                try:
+                    cur.execute("""UPDATE users
+                                    SET email = %s, firstname = %s,
+                                    lastname =%s, telephone = %s, adresse = %s
+                                    WHERE id = %s""", (email, firstname,
+                                    lastname, telephone, adresse, session['user']['id']))
+                    conn.commit()
+                    cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
+                    data = cur.fetchone()
+                    session['user'] = data
+                    flash("Votre profil a été modifié", 'success')
+
+                    return redirect(url_for('profil'))
+                except:
+                    flash('Erreur | Votre profil n\'a pas été modifié', 'warning')
+                    conn.rollback()
+                    return render_template('profil/settings.html.jinja', form=form, error=error)
+        return render_template('profil/settings.html.jinja', form=form, error=error)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))

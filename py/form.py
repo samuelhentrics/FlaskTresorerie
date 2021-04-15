@@ -40,6 +40,13 @@ class AddUser(FlaskForm):
     email = StringField(validators=[DataRequired()])
     submit = SubmitField(Messages.add_button)
 
+class EditMyProfil(FlaskForm):
+    firstname = StringField(validators=[DataRequired()])
+    lastname = StringField(validators=[DataRequired()])
+    telephone = IntegerField(validators=[DataRequired()])
+    adresse = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired()])
+    submit = SubmitField(Messages.edit_button)
 
 class EditUser(FlaskForm):
     firstname = StringField(validators=[DataRequired()])
