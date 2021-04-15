@@ -11,10 +11,10 @@ Ce projet à pour but de gerer les finances d'une mairie.
 - CAF fonctionnel (modifier, ajouter, supprimer)
 
 # Information dev
-Reste à faire :
+**Reste à faire :**
   - Emprunts simulation
   - Fonctionnalité profil (ex : modif mot de passe, ajout avatar...)
-  - Ameliorer code emprunt (--> detail_annee.html.jinja)
+  - **EN COURS | Ameliorer code emprunt (--> detail_annee.html.jinja)** 
   - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
   - Mettre le plus de messages vers le fichier py/messages.py 
     afin d'éviter de devoir tout modifier dans certaines conditions
