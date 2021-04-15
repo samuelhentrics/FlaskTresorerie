@@ -16,8 +16,10 @@ Ce projet à pour but de gerer les finances d'une mairie.
     afin d'éviter de devoir tout modifier dans certaines conditions
 
 # Anciennes mises à jour
- # Mise à jour du 14/04/2021
-    - Ajout du logo
-    - Suppression des fichiers inutiles
-    - Modification des repertoires
-    - CAF fonctionnel (modifier, ajouter, supprimer)
+    Mise à jour du 14/04/2021
+        - Ajout du logo
+        - Suppression des fichiers inutiles
+        - Modification des repertoires
+        - CAF fonctionnel (modifier, ajouter, supprimer)
+
+    Pas d'autres données disponibles.
