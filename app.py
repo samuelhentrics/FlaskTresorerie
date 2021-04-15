@@ -358,8 +358,7 @@ def profil():
                                     lastname, telephone, adresse, session['user']['id']))
                     conn.commit()
                     cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
-                    data = cur.fetchone()
-                    session['user'] = data
+                    session['user'] = cur.fetchone()
                     flash("Votre profil a été modifié", 'success')
 
                     return redirect(url_for('profil'))
