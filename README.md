@@ -8,6 +8,8 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Modification de "mon profil" fonctionnel (sauf mot de passe)
 
 # Information dev
+    /!\ Début modification page "Mon Profil"
+
 **Reste à faire :**
   - Emprunts simulation
   - Fonctionnalité profil (ex : modif mot de passe, ajout avatar...)
