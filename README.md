@@ -1,7 +1,6 @@
 # flaskTresorerie
 
-# Informations
-Ce projet à pour but de gerer les finances d'une mairie.
+Ce projet Python utilisant principalement Flask a pour but de gérer les finances d'une mairie.
 
 
 # Dernière mise à jour (15/04/2021)
