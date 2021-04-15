@@ -18,330 +18,35 @@
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
-                {% if janvier != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Janvier</strong></td>
-                    </tr>
-                    {% for emprunt in janvier %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
+                {% for mois in data %}
+                    {% if data[mois] != [] %}
+                        <tr role="group" class="bg-light">
+                            <td colspan="10"><strong>{{ mois }}</strong></td>
                         </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if fevrier != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Fevrier</strong></td>
-                    </tr>
-                    {% for emprunt in fevrier %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if mars != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Mars</strong></td>
-                    </tr>
-                    {% for emprunt in mars %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if avril != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Avril</strong></td>
-                    </tr>
-                    {% for emprunt in avril %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if mai != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Mai</strong></td>
-                    </tr>
-                    {% for emprunt in mai %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if juin != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Juin</strong></td>
-                    </tr>
-                    {% for emprunt in juin %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if juillet != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Juillet</strong></td>
-                    </tr>
-                    {% for emprunt in juillet %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if aout != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Aout</strong></td>
-                    </tr>
-                    {% for emprunt in aout %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if septembre != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Septembre</strong></td>
-                    </tr>
-                    {% for emprunt in septembre %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if octobre != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Octobre</strong></td>
-                    </tr>
-                    {% for emprunt in octobre %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if novembre != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Novembre</strong></td>
-                    </tr>
-                    {% for emprunt in novembre %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-                {% if decembre != [] %}
-                    <tr role="group" class="bg-light">
-                        <td colspan="10"><strong>Decembre</strong></td>
-                    </tr>
-                    {% for emprunt in decembre %}
-                        <tr>
-                            <td>{{ emprunt['libelle'] }}</td>
-                            <td>{{ emprunt['capital'] }}</td>
-                            <td>{{ emprunt['interet'] }}</td>
-                            <td>{{ emprunt['date'] }}</td>
-                            <td>{{ emprunt['periodicite'] }}</td>
-                            <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
-                            <td>{{ emprunt['preteur'] }}</td>
-                            <td>
-                                <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                    <a class="dropdown-item" href="#">Assign</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
+                        {% for emprunt in data[mois] %}
+                            <tr>
+                                <td>{{ emprunt['libelle'] }}</td>
+                                <td>{{ emprunt['capital'] }}</td>
+                                <td>{{ emprunt['interet'] }}</td>
+                                <td>{{ emprunt['date'] }}</td>
+                                <td>{{ emprunt['periodicite'] }}</td>
+                                <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
+                                <td>{{ emprunt['preteur'] }}</td>
+                                <td>
+                                    <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <span class="text-muted sr-only">Action</span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Remove</a>
+                                        <a class="dropdown-item" href="#">Assign</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
             </table>
             </tbody>
         </div>

@@ -134,8 +134,9 @@ def delete_emprunt(id):
 def emprunts_annee(annee):
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
-        i = 1
-        while i <= 12:
+        data={}
+        for i in range(1,13):
+            print(i)
             cur.execute(
                 'SELECT e.libelle AS libelle, e.capital AS capital, e.interet AS interet, e.date AS date, e.periodicite AS periodicite, de.restant AS restant, e.echeance AS echeance, e.preteur AS preteur '
                 'FROM details_emprunts de '
@@ -143,34 +144,9 @@ def emprunts_annee(annee):
                 'ON e.id=de.emprunt_id '
                 'WHERE YEAR(de.date)=%s AND MONTH(de.date)=%s'
                 , (annee, i,))
-            if i == 1:
-                janvier = cur.fetchall()
-            elif i == 2:
-                fevrier = cur.fetchall()
-            elif i == 3:
-                mars = cur.fetchall()
-            elif i == 4:
-                avril = cur.fetchall()
-            elif i == 5:
-                mai = cur.fetchall()
-            elif i == 6:
-                juin = cur.fetchall()
-            elif i == 7:
-                juillet = cur.fetchall()
-            elif i == 8:
-                aout = cur.fetchall()
-            elif i == 9:
-                septembre = cur.fetchall()
-            elif i == 10:
-                octobre = cur.fetchall()
-            elif i == 11:
-                novembre = cur.fetchall()
-            elif i == 12:
-                decembre = cur.fetchall()
-            i += 1
-        return render_template('emprunts/details_annee.html.jinja', janvier=janvier, fevrier=fevrier, mars=mars,
-                               avril=avril, mai=mai, juin=juin, juillet=juillet, aout=aout
-                               , septembre=septembre, octobre=octobre, novembre=novembre, decembre=decembre,
+            data[calendar.month_name[i].capitalize()] = cur.fetchall()
+        print(data)
+        return render_template('emprunts/details_annee.html.jinja', data=data,
                                annee=annee)
     else:
         flash(Messages.need_login, "warning")
