@@ -67,6 +67,7 @@
                     </a>
                 </li>
             </ul>
+            {% if session['loggedin'] %}
             <ul class="navbar-nav flex-fill w-100 mb-2">
                 <li class="nav-item w-100">
                     <a href="{{ url_for('calendrier') }}" class="nav-link">
@@ -75,7 +76,6 @@
                     </a>
                 </li>
             </ul>
-            {% if session['loggedin'] %}
                 <p class="text-muted nav-heading mt-4 mb-1">
                     <span>Trésorerie</span>
                 </p>

@@ -6,11 +6,15 @@ Usage:
     Programme python (Application) principale pour lancer Flask
 """
 import math
+import os
+
 import MySQLdb
 import imghdr
-from flask import Flask, render_template, redirect, flash, url_for, request, session
+from flask import Flask, render_template, redirect, flash, url_for, request, session, abort
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+from PIL import Image
 import ConfigApp
 from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil
 from py.messages import Messages
@@ -42,6 +46,7 @@ conn = mysql.connector.connect(host=bdd.MYSQL_HOST,
                                database=bdd.MYSQL_DB)
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
+
 def validate_image(stream):
     header = stream.read(512)  # 512 bytes should be enough for a header check
     stream.seek(0)  # reset stream pointer
@@ -49,6 +54,7 @@ def validate_image(stream):
     if not format:
         return None
     return '.' + (format if format != 'jpeg' else 'jpg')
+
 
 # Accueil
 
@@ -145,18 +151,17 @@ def delete_emprunt(id):
 def emprunts_annee(annee):
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
-        data={}
-        for i in range(1,13):
-            print(i)
+        data = {}
+        for i in range(1, 13):
             cur.execute(
-                'SELECT e.libelle AS libelle, e.capital AS capital, e.interet AS interet, e.date AS date, e.periodicite AS periodicite, de.restant AS restant, e.echeance AS echeance, e.preteur AS preteur '
+                'SELECT e.libelle AS libelle, e.capital AS capital, e.interet AS interet, e.date AS date, '
+                'e.periodicite AS periodicite, de.restant AS restant, e.echeance AS echeance, e.preteur AS preteur '
                 'FROM details_emprunts de '
                 'INNER JOIN emprunts e '
                 'ON e.id=de.emprunt_id '
                 'WHERE YEAR(de.date)=%s AND MONTH(de.date)=%s'
                 , (annee, i,))
             data[calendar.month_name[i].capitalize()] = cur.fetchall()
-        print(data)
         return render_template('emprunts/details_annee.html.jinja', data=data,
                                annee=annee)
     else:
@@ -248,7 +253,6 @@ def caf():
                         'ON de.emprunt_id=e.id '
                         'WHERE YEAR(de.date)=%s', (int(caf[i]['annee']),))
             emprunts = cur.fetchone()
-            print(emprunts)
             if emprunts['capital'] == None or emprunts['interet'] == None:
                 caf[i]['annuite'] = "Manque de données"
                 caf[i]['caf'] = "Manque de données"
@@ -355,7 +359,7 @@ def profil():
                                     SET email = %s, firstname = %s,
                                     lastname =%s, telephone = %s, adresse = %s
                                     WHERE id = %s""", (email, firstname,
-                                    lastname, telephone, adresse, session['user']['id']))
+                                                       lastname, telephone, adresse, session['user']['id']))
                     conn.commit()
                     cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
                     session['user'] = cur.fetchone()
@@ -367,6 +371,52 @@ def profil():
                     conn.rollback()
                     return render_template('profil/settings.html.jinja', form=form, error=error)
         return render_template('profil/settings.html.jinja', form=form, error=error)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/profil/avatar', methods=['GET', 'POST'])
+def myavatar():
+    if 'loggedin' in session:
+        error = None
+        cur = conn.cursor(buffered=True, dictionary=True)
+        if request.method == 'POST':
+            uploaded_file = request.files['file']
+            filename = secure_filename(uploaded_file.filename)
+            try:
+                if filename != '':
+                    file_ext = os.path.splitext(filename)[1]
+                    if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+                            file_ext != validate_image(uploaded_file.stream):
+                        abort(400)
+                    else:
+                        uploaded_file.save(
+                            os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext))
+                        uploaded_file = Image.open(
+                            os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext))
+                        img_width, img_height = uploaded_file.size
+                        if img_width != img_height:
+                            uploaded_file = uploaded_file.crop(((img_width - 400) // 2,
+                                                (img_height - 400) // 2,
+                                                (img_width + 400) // 2,
+                                                (img_height + 400) // 2))
+                            uploaded_file.save(
+                                os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext), quality=95)
+                        cur.execute("""UPDATE users
+                                        SET avatar = %s
+                                        WHERE id = %s""",
+                                    ('assets/avatars/' + session['user']['pseudo'] + file_ext, session['user']['id']))
+                        conn.commit()
+                        cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
+                        session['user'] = cur.fetchone()
+                        flash("Votre avatar a été modifié", 'success')
+                return redirect(url_for('profil'))
+            except:
+                flash('Erreur | Votre avatar n\'a pas été modifié', 'warning')
+                conn.rollback()
+                return render_template('profil/myavatar.html.jinja')
+        return render_template('profil/myavatar.html.jinja')
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))

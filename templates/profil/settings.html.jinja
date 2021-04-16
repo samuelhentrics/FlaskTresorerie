@@ -11,13 +11,16 @@
                     {% if error %}
                         <div class="alert alert-danger">{{ error }}</div>
                     {% endif %}
-                    <form action="{{ url_for('profil') }}" method="post">
-                    {{ form.csrf_token }}
+                    <form action="{{ url_for('profil') }}" method="post" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
                         <div class="row mt-5 align-items-center">
                             <div class="col-md-3 text-center mb-5">
                                 <div class="avatar avatar-xl">
                                     <img src="{{ url_for("static", filename=session['user']['avatar']) }}" alt="..."
                                          class="avatar-img rounded-circle">
+                                    <a href="{{ url_for('myavatar') }}" class="btn mb-2 p-0 mr-3 btn-outline-primary active ">
+                                        Changer l'avatar
+                                    </a>
                                 </div>
                             </div>
                             <div class="col">

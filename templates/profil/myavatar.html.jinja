@@ -1,0 +1,23 @@
+{% extends 'base.html.jinja' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div class="wrapper vh-100">
+        <div class="row align-items-center h-80">
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <form class="col-lg-3 mx-auto text-center" action="" method="post" enctype="multipart/form-data">
+                <h1 class="h2 mb-3">Changer votre avatar</h1>
+                <a class="navbar-brand mx-auto mt-2 flex-fill text-center">
+                    <img width="60%" src="{{ url_for("static", filename=session['user']['avatar']) }}" class="avatar-img rounded-circle">
+                </a>
+                <div class="form-group">
+                    <input type="file" name="file">
+                </div>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+{% endblock %}
