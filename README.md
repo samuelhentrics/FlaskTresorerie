@@ -21,7 +21,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
     à partir du ~~18/04/2021~~ 19/04/2021 (pause le 17)
 
     Le ~~17/04/2021~~ 18/04/2021, les finitions de cette partie seront effectués (boutons,
-    mise en page...) (pause le 17)
+    mise en page...) (pause le 17) 
 
 **Reste à faire :**
 
