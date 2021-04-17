@@ -18,9 +18,6 @@
                                 <div class="avatar avatar-xl">
                                     <img src="{{ url_for("static", filename=session['user']['avatar']) }}" alt="..."
                                          class="avatar-img rounded-circle">
-                                    <a href="{{ url_for('myavatar') }}" class="btn mb-2 p-0 mr-3 btn-outline-primary active ">
-                                        Changer l'avatar
-                                    </a>
                                 </div>
                             </div>
                             <div class="col">
@@ -33,8 +30,12 @@
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-7">
-                                        <p class="text-muted"> Bienvenue dans votre espace personnel de paramétrage de
-                                            votre compte </p>
+                                        <p class="text-muted">
+                                            Bienvenue dans votre espace personnel de paramétrage de votre compte
+                                        </p>
+                                        <a href="{{ url_for('myavatar') }}" class="btn mb-2 p-1 mr-3 btn-outline-primary active ">
+                                            Changer l'avatar
+                                        </a>
                                     </div>
                                     <div class="col">
                                         <p class="small mb-0 text-muted">{{ session['user']['adresse'] }}</p>

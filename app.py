@@ -413,7 +413,7 @@ def myavatar():
                         flash("Votre avatar a été modifié", 'success')
                 return redirect(url_for('profil'))
             except:
-                flash('Erreur | Votre avatar n\'a pas été modifié', 'warning')
+                flash('Erreur | Votre avatar n\'a pas été modifié, .png et .jpg uniquement accepté', 'warning')
                 conn.rollback()
                 return render_template('profil/myavatar.html.jinja')
         return render_template('profil/myavatar.html.jinja')

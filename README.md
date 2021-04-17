@@ -2,10 +2,8 @@
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
-# Dernière mise à jour (16/04/2021)
-- Possibilité de modifier l'avatar de son propre profil depuis "Mon Profil" (code non optimal mais fonctionnel)
-- L'avatar se met automatiquement en mode "carré" si l'image n'est pas adaptée
-- Menu déroulant mis à jour (calendrier uniquement lorsque connecté)
+# Dernière mise à jour (17/04/2021)
+- Page "Mon Profil" fonctionnel (hors mot de passe)
 
 # Comment importer le projet sur une autre machine ?
 
@@ -44,10 +42,10 @@ Prérequis :
     /!\ Début modification page "Mon Profil"
     Au vu du temps que le code pour les avatars prend, nous allons nous
     reconcentrer sur l'emprunt, la caf et la page modification utilisateurs
-    à partir du ~~18/04/2021~~ 19/04/2021 (pause le 17)
+    à partir du 18/04/2021
 
-    Le ~~17/04/2021~~ 18/04/2021, les finitions de cette partie seront effectués (boutons,
-    mise en page...) (pause le 17) 
+    Le 17/04/2021, les finitions de cette partie seront effectués (boutons,
+    mise en page...)
 
 **Reste à faire :**
 
@@ -78,12 +76,21 @@ Prérequis :
 
 # Anciennes mises à jour
 
-    Mise à jour du 15/04/2021
+Mise à jour du 16/04/2021
+
+        - Possibilité de modifier l'avatar de son propre profil depuis "Mon Profil"
+        - L'avatar se met automatiquement en mode "carré" si l'image n'est pas adaptée
+        - Menu déroulant mis à jour (calendrier uniquement lorsque connecté)
+
+
+Mise à jour du 15/04/2021
+
         - Amélioration du code permettant de récupérer les emprunts d'une
         année (--> detail_annee.html.jinja)
         - Modification de "mon profil" fonctionnel (sauf mot de passe)
 
-    Mise à jour du 14/04/2021
+Mise à jour du 14/04/2021
+
         - Ajout du logo
         - Suppression des fichiers inutiles
         - Modification des repertoires
