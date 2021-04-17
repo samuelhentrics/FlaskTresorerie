@@ -4,6 +4,8 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
 # Dernière mise à jour (17/04/2021)
 - Page "Mon Profil" fonctionnel (hors mot de passe)
+- Possibilité de modifier le mot de passe depuis la page "Liste des profils"
+- MAJ design page edition "Liste des profils"
 
 # Comment importer le projet sur une autre machine ?
 

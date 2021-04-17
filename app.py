@@ -398,11 +398,12 @@ def myavatar():
                         img_width, img_height = uploaded_file.size
                         if img_width != img_height:
                             uploaded_file = uploaded_file.crop(((img_width - 400) // 2,
-                                                (img_height - 400) // 2,
-                                                (img_width + 400) // 2,
-                                                (img_height + 400) // 2))
+                                                                (img_height - 400) // 2,
+                                                                (img_width + 400) // 2,
+                                                                (img_height + 400) // 2))
                             uploaded_file.save(
-                                os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext), quality=95)
+                                os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext),
+                                quality=95)
                         cur.execute("""UPDATE users
                                         SET avatar = %s
                                         WHERE id = %s""",
@@ -468,7 +469,7 @@ def profil_add():
                     email = request.form['email']
                     admin = 0
                     cur = conn.cursor()
-                    cur.execute("SELECT pseudo FROM users WHERE pseudo=%s", (pseudo,))
+                    cur.execute("SELECT pseudo FROM users WHERE pseudo=%s OR email=%s", (pseudo, email))
                     data = cur.fetchall()
                     if data:
                         error = "Le pseudo ou l'email est déjà utilisé"
@@ -517,11 +518,19 @@ def profil_edit(id):
                     email = request.form['email']
                     admin = 0
                     try:
-                        cur.execute("""UPDATE users
-                                        SET email = %s,firstname = %s,
-                                        lastname =%s,fonction = %s,telephone = %s,adresse = %s
-                                        WHERE id = %s""", (email, firstname,
-                                                           lastname, fonction, telephone, adresse, id))
+                        if password == '':
+                            cur.execute("""UPDATE users
+                                            SET email = %s, firstname = %s, lastname =%s, fonction = %s,
+                                            telephone = %s, adresse = %s
+                                            WHERE id = %s""",
+                                        (email, firstname, lastname, fonction, telephone, adresse, id))
+                        else:
+                            cur.execute("""UPDATE users
+                                        SET email = %s,firstname = %s, lastname =%s, fonction = %s, telephone = %s,
+                                        adresse = %s, password =%s
+                                        WHERE id = %s""",
+                                        (email, firstname, lastname, fonction, telephone, adresse,
+                                         generate_password_hash(password), id))
                         conn.commit()
                         flash("L'utilisateur a été modifié", 'success')
                         return redirect(url_for('profil_list'))
@@ -541,7 +550,7 @@ def profil_delete(id):
     cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
     conn.commit()
     flash('L\'utilisateur a été supprimé', 'success')
-    return redirect(url_for('user_list'))
+    return redirect(url_for('profil_list'))
 
 
 # Calendrier
