@@ -8,12 +8,38 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Menu déroulant mis à jour (calendrier uniquement lorsque connecté)
 
 # Comment importer le projet sur une autre machine ?
-    Bientôt à 100% completé
 
-    Pour information, pour la BDD, il faudra un profil nommé "admin" avec le mdp : "info"
-    mais surtout, il faudra crée une database nommé "tresorerie" afin de
-    l'importer dedans afin que tout fonctionne parfaitement. 
+Prérequis :
+- Ubuntu
+- Python 3.9
+- Pycharm 2021.1
+- PHPMyAdmin
+- Les fichiers de ce projet
 
+**ETAPE 1 : Créer son projet Flask**
+    
+- Depuis Pycharm -> File -> New Project -> Flask
+- Nommer le projet flaskTresorerie
+- Dans ce projet, importer tout le projet disponible sur Github
+
+**ETAPE 2 : Importer la BDD**
+
+- Depuis PHPMyAdmin, "Nouvelle base de données" --> tresorerie --> creer
+- Allez dans le repertoire "tresorerie" --> importer --> prendre le fichier tresorerie_db.sql et l'importer
+- Si le compte "admin" n'existe pas, il faut le créer avec comme mot de passe "info"
+    
+**ETAPE 3 : AJOUTER TOUS LES MODULES NECESSAIRES**
+
+- Pour cela rien de plus simple, il suffit de faire cette commande dans le terminal PyCharm :
+  
+        pip install -r requirements.txt
+    
+**ETAPE 4 : Lancer le projet !**
+
+- Soit depuis le terminal avec
+        
+        flask run
+- Soit en faisant Maj + F10
 # Information dev
     /!\ Début modification page "Mon Profil"
     Au vu du temps que le code pour les avatars prend, nous allons nous
