@@ -573,6 +573,11 @@ def page_not_found(e):
     return render_template('security/404.html.jinja'), 404
 
 
+@app.errorhandler(413)
+def internal_server_error(e):
+    return render_template('security/413.html.jinja'), 413
+
+
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('security/500.html.jinja'), 500

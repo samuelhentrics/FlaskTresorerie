@@ -2,10 +2,8 @@
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
-# Dernière mise à jour (17/04/2021)
-- Page "Mon Profil" fonctionnel (hors mot de passe)
-- Possibilité de modifier le mot de passe depuis la page "Liste des profils"
-- MAJ design page edition "Liste des profils"
+# Dernière mise à jour (23/04/2021)
+- Ajout d'une page erreur 413
 
 # Comment importer le projet sur une autre machine ?
 
@@ -41,13 +39,6 @@ Prérequis :
         flask run
 - Soit en faisant Maj + F10
 # Information dev
-    /!\ Début modification page "Mon Profil"
-    Au vu du temps que le code pour les avatars prend, nous allons nous
-    reconcentrer sur l'emprunt, la caf et la page modification utilisateurs
-    à partir du 18/04/2021
-
-    Le 17/04/2021, les finitions de cette partie seront effectués (boutons,
-    mise en page...)
 
 **Reste à faire :**
 
@@ -58,9 +49,8 @@ Prérequis :
   - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
 
 **Fonctionnalités profil**
-  - Avatar : modifier mise en page (bouton) et ajouter des avatars par defauts.
-  - Modifier le mot de passe
-  - Edit pour la liste des profils
+  - Avatar : ajouter des avatars par defauts
+  - Modifier le mot de passe (Mon Profil)
   -
         Les fonctionnalités supplémentaires tel que les avatars seront déjà
         réalisées sur la page Mon Profil pour être plus tard mise dans liste
@@ -77,6 +67,13 @@ Prérequis :
     l'image et rafraichir)
 
 # Anciennes mises à jour
+
+Mise à jour du 17/04/2021
+
+        - Page "Mon Profil" fonctionnel (hors mot de passe)
+        - Possibilité de modifier le mot de passe depuis la page "Liste des profils"
+        - MAJ design page edition "Liste des profils"
+
 
 Mise à jour du 16/04/2021
 
