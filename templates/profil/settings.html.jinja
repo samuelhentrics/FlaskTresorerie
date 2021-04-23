@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col">
                                         <p class="small mb-0 text-muted">{{ session['user']['adresse'] }}</p>
-                                        <p class="small mb-0 text-muted">{{ session['user']['telephone'] }}</p>
+                                        <p class="small mb-0 text-muted">+33 {{ session['user']['telephone'] }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                             <div class="form-group col-md-6">
                                 <label for="inputCompany5">Téléphone</label>
                                 <input type="text" class="form-control" name="telephone"
-                                       value="{{ session['user']['telephone'] }}">
+                                       value="0{{ session['user']['telephone'] }}">
                                 {% for error in form.telephone.errors %}
                                     <span class="badge badge-danger">{{ error }}</span>
                                 {% endfor %}

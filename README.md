@@ -4,6 +4,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
 # Dernière mise à jour (23/04/2021)
 - Ajout d'une page erreur 413
+- Les numéros de téléphone sont affichés correctement
 
 # Comment importer le projet sur une autre machine ?
 
