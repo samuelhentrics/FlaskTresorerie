@@ -9,7 +9,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
 Prérequis :
 - Ubuntu
-- Python 3.9
+- Python 3.9 (recommandé)
 - Pycharm 2021.1
 - PHPMyAdmin
 - Les fichiers de ce projet
