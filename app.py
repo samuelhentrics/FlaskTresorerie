@@ -474,9 +474,6 @@ def profil_add():
                     if data:
                         error = "Le pseudo ou l'email est déjà utilisé"
                         return render_template('profil/add.html.jinja', form=form, error=error)
-                    elif password != passwordconfirm:
-                        error = "La confirmation du mot de passe a échoué"
-                        return render_template('profil/add.html.jinja', form=form, error=error)
                     else:
                         try:
                             password = generate_password_hash(password)

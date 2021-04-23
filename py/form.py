@@ -6,7 +6,7 @@ Usage:
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, validators, SubmitField, IntegerField, PasswordField
-from wtforms.validators import DataRequired, length
+from wtforms.validators import DataRequired, length, EqualTo
 from py.messages import Messages
 
 
@@ -36,7 +36,7 @@ class AddUser(FlaskForm):
     fonction = StringField(validators=[DataRequired()])
     pseudo = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired(), length(min=3, max=20)])
-    passwordconfirm = PasswordField(validators=[DataRequired(), length(min=3, max=20)])
+    passwordconfirm = PasswordField(validators=[DataRequired(), EqualTo('password'), length(min=3, max=20)])
     email = StringField(validators=[DataRequired()])
     submit = SubmitField(Messages.add_button)
 
