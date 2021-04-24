@@ -12,6 +12,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Ajout d'un rafraichissement du profil pour chaque page
 - Statut connection / admin disponible dans la liste des profils
 - La sécurité du site a été renforcée
+- Correction d'une erreur de lien vers la page Ajouter une année dans CAF (localhost/caf/edit --> localhost/caf/add)
 
 # Comment importer le projet sur une autre machine ?
 
