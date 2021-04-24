@@ -2,10 +2,11 @@
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
-# Dernière mise à jour (23/04/2021)
-- Ajout d'une page erreur 413
-- Les numéros de téléphone sont affichés correctement
-- Amélioration du code confirmation mdp
+# Dernière mise à jour (24/04/2021)
+
+- Les messages d'erreurs des formulaires sont maintenant en français. (dispobible dans messages.py)
+- Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages d'echecs, de succès.
+
 
 # Comment importer le projet sur une autre machine ?
 
@@ -69,6 +70,12 @@ Prérequis :
     l'image et rafraichir)
 
 # Anciennes mises à jour
+
+Mise à jour du 23/04/2021
+
+        - Ajout d'une page erreur 413
+        - Les numéros de téléphone sont affichés correctement
+        - Amélioration du code confirmation mdp
 
 Mise à jour du 17/04/2021
 

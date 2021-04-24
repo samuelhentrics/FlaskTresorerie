@@ -143,7 +143,7 @@ def delete_emprunt(id):
     conn.commit()
     cur.execute('DELETE FROM details_emprunts WHERE emprunt_id ={0}'.format(id))
     conn.commit()
-    flash('Cet emprunt a été supprimé', 'success')
+    flash(Messages.delete_emprunts, 'success')
     return redirect(url_for('emprunts_list'))
 
 
@@ -216,10 +216,10 @@ def add_emprunt():
                                             (int(datecours.strftime('%Y')), 0, 0))
                         datecours = datecours.strftime('%Y-%m-%d')
                         restant = restant - 1
-                    flash("Emprunt ajouté", 'success')
+                    flash(Messages.add_emprunts_validate, 'success')
                     return redirect(url_for('emprunts'))
                 except:
-                    flash("L'emprunt n'a pas été ajouté", 'warning')
+                    flash(Messages.add_emprunts_error, 'warning')
                     conn.rollback()
                     return redirect(url_for('emprunts'))
         return render_template('emprunts/add.html.jinja', form=form, error=error)
@@ -254,8 +254,8 @@ def caf():
                         'WHERE YEAR(de.date)=%s', (int(caf[i]['annee']),))
             emprunts = cur.fetchone()
             if emprunts['capital'] == None or emprunts['interet'] == None:
-                caf[i]['annuite'] = "Manque de données"
-                caf[i]['caf'] = "Manque de données"
+                caf[i]['annuite'] = Messages.no_data
+                caf[i]['caf'] = Messages.no_data
             else:
                 caf[i]['annuite'] = emprunts['capital'] + emprunts['interet']
                 caf[i]['caf'] = caf[i]['recettes'] - caf[i]['depenses'] - caf[i]['annuite']
@@ -279,7 +279,7 @@ def add_caf():
                 cur.execute("SELECT annee FROM caf WHERE annee=%s", (annee,))
                 data = cur.fetchall()
                 if data:
-                    error = "L'année est déjà renseignée"
+                    error = Messages.year_exist
                     return render_template('caf/add.html.jinja', form=form, error=error)
                 else:
                     try:
@@ -287,10 +287,10 @@ def add_caf():
                             "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s','%s','%s')" % (
                                 annee, depenses, recettes))
                         conn.commit()
-                        flash("CAF ajoutée", 'success')
+                        flash(Messages.add_caf_validate, 'success')
                         return redirect(url_for('caf'))
                     except:
-                        flash("CAF non ajoutée", 'warning')
+                        flash(Messages.add_caf_error, 'warning')
                         conn.rollback()
                         return redirect(url_for('caf'))
         return render_template('caf/add.html.jinja', form=form, error=error)
@@ -318,10 +318,10 @@ def edit_caf(annee):
                                 "WHERE annee=%s",
                                 (depenses, recettes, annee))
                     conn.commit()
-                    flash("L'année a été modifiée", 'success')
+                    flash(Messages.edit_caf_validate, 'success')
                     return redirect(url_for('caf'))
                 except:
-                    flash("CAF non modifiée", 'warning')
+                    flash(Messages.edit_caf_error, 'warning')
                     conn.rollback()
                     return redirect(url_for('caf'))
         return render_template('caf/edit.html.jinja', form=form, error=error, caf=data, annee=annee)
@@ -335,7 +335,7 @@ def delete_caf(annee):
     cur = conn.cursor()
     cur.execute('DELETE FROM caf WHERE annee = {0}'.format(annee))
     conn.commit()
-    flash('Cette année a été supprimé', 'success')
+    flash(Messages.delete_caf, 'success')
     return redirect(url_for('caf'))
 
 
@@ -363,11 +363,11 @@ def profil():
                     conn.commit()
                     cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
                     session['user'] = cur.fetchone()
-                    flash("Votre profil a été modifié", 'success')
+                    flash(Messages.edit_myprofil_validate, 'success')
 
                     return redirect(url_for('profil'))
                 except:
-                    flash('Erreur | Votre profil n\'a pas été modifié', 'warning')
+                    flash(Messages.edit_myprofil_error, 'warning')
                     conn.rollback()
                     return render_template('profil/settings.html.jinja', form=form, error=error)
         return render_template('profil/settings.html.jinja', form=form, error=error)
@@ -411,10 +411,10 @@ def myavatar():
                         conn.commit()
                         cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
                         session['user'] = cur.fetchone()
-                        flash("Votre avatar a été modifié", 'success')
+                        flash(Messages.edit_myprofil_avatar_validate, 'success')
                 return redirect(url_for('profil'))
             except:
-                flash('Erreur | Votre avatar n\'a pas été modifié, .png et .jpg uniquement accepté', 'warning')
+                flash(Messages.edit_myprofil_avatar_error, 'warning')
                 conn.rollback()
                 return render_template('profil/myavatar.html.jinja')
         return render_template('profil/myavatar.html.jinja')
@@ -472,7 +472,7 @@ def profil_add():
                     cur.execute("SELECT pseudo FROM users WHERE pseudo=%s OR email=%s", (pseudo, email))
                     data = cur.fetchall()
                     if data:
-                        error = "Le pseudo ou l'email est déjà utilisé"
+                        error = Messages.add_profil_exist
                         return render_template('profil/add.html.jinja', form=form, error=error)
                     else:
                         try:
@@ -482,10 +482,10 @@ def profil_add():
                                 ",admin) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                                     firstname, lastname, fonction, telephone, adresse, pseudo, password, email, admin))
                             conn.commit()
-                            flash("Utilisateur ajouté", 'success')
+                            flash(Messages.add_profil_validate, 'success')
                             return redirect(url_for('profil_list'))
                         except:
-                            flash("L'utilisateur n'a pas été ajouté", 'warning')
+                            flash(Messages.add_profil_error, 'warning')
                             conn.rollback()
                             return redirect(url_for('profil_list'))
             return render_template('profil/add.html.jinja', form=form, error=error)
@@ -529,10 +529,10 @@ def profil_edit(id):
                                         (email, firstname, lastname, fonction, telephone, adresse,
                                          generate_password_hash(password), id))
                         conn.commit()
-                        flash("L'utilisateur a été modifié", 'success')
+                        flash(Messages.edit_profil_validate, 'success')
                         return redirect(url_for('profil_list'))
                     except:
-                        flash('Erreur | L\'utilisateur n\'a pas été modifié', 'warning')
+                        flash(Messages.edit_profil_error, 'warning')
                         conn.rollback()
                         return render_template('profil/edit.html.jinja', data=data[0], form=form, error=error)
             return render_template('profil/edit.html.jinja', data=data, form=form, error=error)
@@ -546,7 +546,7 @@ def profil_delete(id):
     cur = conn.cursor()  # on
     cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
     conn.commit()
-    flash('L\'utilisateur a été supprimé', 'success')
+    flash(Messages.delete_profil, 'success')
     return redirect(url_for('profil_list'))
 
 

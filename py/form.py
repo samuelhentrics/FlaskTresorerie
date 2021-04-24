@@ -11,62 +11,66 @@ from py.messages import Messages
 
 
 class LoginForm(FlaskForm):
-    pseudo = StringField(validators=[DataRequired()])
-    password = PasswordField(validators=[DataRequired(), length(min=3, max=8)])
+    pseudo = StringField(validators=[DataRequired(message=Messages.data_required)])
+    password = PasswordField(validators=[DataRequired(message=Messages.data_required),
+                                         length(min=3, max=20,message=Messages.password_len)])
     submit = SubmitField(Messages.login_button)
 
 
 class AddEmprunt(FlaskForm):
-    libelle = StringField(validators=[DataRequired()])
-    capitaldepart = IntegerField(validators=[DataRequired()])
-    capital = IntegerField(validators=[DataRequired()])
-    interet = IntegerField(validators=[DataRequired()])
-    date = StringField(validators=[DataRequired()])
-    periodicite = IntegerField(validators=[DataRequired()])
-    echeance = IntegerField(validators=[DataRequired()])
-    preteur = StringField(validators=[DataRequired()])
+    libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
+    capitaldepart = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    capital = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    interet = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    date = StringField(validators=[DataRequired(message=Messages.data_required)])
+    periodicite = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    echeance = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    preteur = StringField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.add_button)
 
 
 class AddUser(FlaskForm):
-    firstname = StringField(validators=[DataRequired()])
-    lastname = StringField(validators=[DataRequired()])
-    telephone = IntegerField(validators=[DataRequired()])
-    adresse = StringField(validators=[DataRequired()])
-    fonction = StringField(validators=[DataRequired()])
-    pseudo = StringField(validators=[DataRequired()])
-    password = PasswordField(validators=[DataRequired(), length(min=3, max=20)])
-    passwordconfirm = PasswordField(validators=[DataRequired(), EqualTo('password'), length(min=3, max=20)])
-    email = StringField(validators=[DataRequired()])
+    firstname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    lastname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    telephone = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    adresse = StringField(validators=[DataRequired(message=Messages.data_required)])
+    fonction = StringField(validators=[DataRequired(message=Messages.data_required)])
+    pseudo = StringField(validators=[DataRequired(message=Messages.data_required)])
+    password = PasswordField(validators=[DataRequired(message=Messages.data_required),
+                                         length(min=3, max=20, message=Messages.password_len)])
+    passwordconfirm = PasswordField(validators=[DataRequired(message=Messages.data_required),
+                                                EqualTo('password', message=Messages.equal_to_password),
+                                                length(min=3, max=20, message=Messages.password_len)])
+    email = StringField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.add_button)
 
 class EditMyProfil(FlaskForm):
-    firstname = StringField(validators=[DataRequired()])
-    lastname = StringField(validators=[DataRequired()])
-    telephone = IntegerField(validators=[DataRequired()])
-    adresse = StringField(validators=[DataRequired()])
-    email = StringField(validators=[DataRequired()])
+    firstname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    lastname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    telephone = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    adresse = StringField(validators=[DataRequired(message=Messages.data_required)])
+    email = StringField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.edit_button)
 
 class EditUser(FlaskForm):
-    firstname = StringField(validators=[DataRequired()])
-    lastname = StringField(validators=[DataRequired()])
-    telephone = IntegerField(validators=[DataRequired()])
-    adresse = StringField(validators=[DataRequired()])
-    fonction = StringField(validators=[DataRequired()])
-    password = PasswordField(validators=[length(min=0, max=20)])
-    email = StringField(validators=[DataRequired()])
+    firstname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    lastname = StringField(validators=[DataRequired(message=Messages.data_required)])
+    telephone = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    adresse = StringField(validators=[DataRequired(message=Messages.data_required)])
+    fonction = StringField(validators=[DataRequired(message=Messages.data_required)])
+    password = PasswordField(validators=[length(min=0, max=20, message=Messages.password_len)])
+    email = StringField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.edit_button)
 
 
 class AddCAF(FlaskForm):
-    annee = IntegerField(validators=[DataRequired()])
-    depenses = IntegerField(validators=[DataRequired()])
-    recettes = IntegerField(validators=[DataRequired()])
+    annee = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    depenses = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    recettes = IntegerField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.add_button)
 
 
 class EditCAF(FlaskForm):
-    depenses = IntegerField(validators=[DataRequired()])
-    recettes = IntegerField(validators=[DataRequired()])
+    depenses = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    recettes = IntegerField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.edit_button)
