@@ -74,7 +74,6 @@ def refresh_user():
         else:
             session['user'] = data
 
-
 # Accueil
 
 @app.route('/')
@@ -305,7 +304,7 @@ def caf():
         return redirect(url_for('login'))
 
 
-@app.route('/caf/edit', methods=['GET', 'POST'])
+@app.route('/caf/add', methods=['GET', 'POST'])
 def add_caf():
     refresh_user()
     if 'loggedin' in session:
@@ -486,7 +485,7 @@ def profil_list(page):
             total_page = math.ceil(total_row / limit)
             prev = page - 1
             next = page + 1
-            cur.execute('SELECT avatar, firstname,lastname, pseudo, fonction, email, id, admin '
+            cur.execute('SELECT avatar, firstname,lastname, pseudo, fonction, email, id, admin, connected '
                         'FROM users LIMIT %s OFFSET %s',
                         (limit, offset,))
             data = cur.fetchall()

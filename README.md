@@ -10,6 +10,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages d'echecs, de succès.
 - Amélioration modification des utilisateurs
 - Ajout d'une vérification mise à jour profil pour chaque page
+- Statut connection / admin disponible dans la liste des profils
 
 # Comment importer le projet sur une autre machine ?
 

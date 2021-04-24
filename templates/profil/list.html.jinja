@@ -39,10 +39,15 @@
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-auto">
                                     <small>
-                                        {% if user['admin']==1 %}
-                                            <span class="dot dot-lg bg-success mr-1"></span> Admin
+                                        {% if user['connected']==1 %}
+                                            <span class="dot dot-lg bg-success mr-1"></span>
                                         {% else %}
-                                            <span class="dot dot-lg bg-danger mr-1"></span> Non Admin
+                                            <span class="dot dot-lg bg-danger mr-1"></span>
+                                        {% endif %}
+                                        {% if user['admin']==1 %}
+                                            <span class="fe fe-user-check fe-12 mr-2"></span>Admin
+                                        {% else %}
+                                            Non Admin
                                         {% endif %}
                                         {% if session['user']['id']==user['id'] %} (vous) {% endif %}
                                     </small>
