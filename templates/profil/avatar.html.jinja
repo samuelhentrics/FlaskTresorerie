@@ -1,6 +1,6 @@
 {% extends 'base.html.jinja' %}
 
-{% block title %}Profil | Mon Avatar{% endblock %}
+{% block title %}Liste des profils | Avatar{% endblock %}
 
 {% block body %}
     <div class="wrapper vh-100">
@@ -9,14 +9,15 @@
                 <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
             <form class="col-lg-3 mx-auto text-center" action="" method="post" enctype="multipart/form-data">
-                <h1 class="h2 mb-3">Changer votre avatar</h1>
+                <h1 class="h2 mb-3">Changer l'avatar</h1>
                 <a class="navbar-brand mx-auto mb-3 flex-fill text-center">
-                    <img width="60%" src="{{ url_for("static", filename=session['user']['avatar']) }}{{ session['timestamp'] }}" class="avatar-img rounded-circle">
+                    <img width="60%" src="{{ url_for("static", filename=data['avatar']) }}{{ session['timestamp'] }}" class="avatar-img rounded-circle">
                 </a>
+                <h4 class="my-2">{{ data['pseudo'] }}</h4>
                 <div class="form-group">
                     <input type="file" name="file" class="btn btn-outline-primary active ">
                 </div>
-                <input class="btn btn-outline-primary active " type="submit">
+                <input class="btn btn-outline-primary active" type="submit">
             </form>
         </div>
     </div>

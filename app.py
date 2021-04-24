@@ -622,6 +622,59 @@ def profil_edit(id):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+@app.route('/profil/list/edit/avatar/<int:id>', methods=['GET', 'POST'])
+def avatar(id):
+    refresh_user()
+    if 'loggedin' in session:
+        if session['user']['admin'] == 1:
+            error = None
+            cur = conn.cursor(buffered=True, dictionary=True)
+            cur.execute("SELECT id, avatar, pseudo FROM users WHERE id=%s" % id)
+            data = cur.fetchone()
+            if request.method == 'POST':
+                uploaded_file = request.files['file']
+                filename = secure_filename(uploaded_file.filename)
+                try:
+                    if filename != '':
+                        file_ext = os.path.splitext(filename)[1]
+                        if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+                                file_ext != validate_image(uploaded_file.stream):
+                            abort(400)
+                        else:
+                            uploaded_file.save(
+                                os.path.join(app.config['UPLOAD_PATH'], data['pseudo'] + file_ext))
+                            uploaded_file = Image.open(
+                                os.path.join(app.config['UPLOAD_PATH'], data['pseudo'] + file_ext))
+                            img_width, img_height = uploaded_file.size
+                            if img_width != img_height:
+                                uploaded_file = uploaded_file.crop(((img_width - 400) // 2,
+                                                                    (img_height - 400) // 2,
+                                                                    (img_width + 400) // 2,
+                                                                    (img_height + 400) // 2))
+                                uploaded_file.save(
+                                    os.path.join(app.config['UPLOAD_PATH'], data['pseudo'] + file_ext),
+                                    quality=95)
+                            cur.execute("""UPDATE users
+                                            SET avatar = %s
+                                            WHERE id = %s""",
+                                        ('assets/avatars/' +  data['pseudo'] + file_ext, data['id']))
+                            conn.commit()
+                            flash(Messages.edit_myprofil_avatar_validate, 'success')
+                    return redirect(url_for('profil_list'))
+                except:
+                    flash(Messages.edit_myprofil_avatar_error, 'warning')
+                    conn.rollback()
+                    return render_template('profil/avatar.html.jinja', data=data)
+            return render_template('profil/avatar.html.jinja', data=data)
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+
 
 @app.route('/profil/user/delete/<int:id>')
 def profil_delete(id):

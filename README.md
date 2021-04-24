@@ -2,6 +2,9 @@
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
+        Attention, depuis le 24/04/2021, une nouvelle BDD est disponible veuillez
+        la mettre à jour si cela n'est pas déjà fait
+
 # Dernière mise à jour (24/04/2021)
 
         Attention | Cette dernière mise à jour nécéssite une MAJ de la BDD.
@@ -20,6 +23,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Logo mis à jour pour être vu dans le thême jour
 - Correction du bug qui rafraichissait pas automatiquement les avatars (utilisation de timestamps)
 - Modification du mot de passe possible depuis le compte utilisé (page Mon Profil)
+- Modification des avatars possible depuis "Liste des profils"
 
 # Comment importer le projet sur une autre machine ?
 
@@ -64,12 +68,8 @@ Prérequis :
 **CAF**
   - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
 
-**Fonctionnalités profil**
-  - ~~Avatar : ajouter des avatars par defauts~~ idée annul
-  -
-        Les fonctionnalités supplémentaires tel que les avatars seront déjà
-        réalisées sur la page Mon Profil pour être plus tard mise dans liste
-        des profils
+**Profils**
+  - Bouton admin
 
 
 # Anciennes mises à jour
