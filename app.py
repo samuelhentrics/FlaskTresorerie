@@ -7,8 +7,6 @@ Usage:
 """
 import math
 import os
-
-import MySQLdb
 import imghdr
 from flask import Flask, render_template, redirect, flash, url_for, request, session, abort
 import mysql.connector
