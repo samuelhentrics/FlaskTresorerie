@@ -4,9 +4,12 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
 # Dernière mise à jour (24/04/2021)
 
+        Attention | Cette dernière mise à jour nécéssite une MAJ de la BDD.
+
 - Les messages d'erreurs des formulaires sont maintenant en français. (dispobible dans messages.py)
 - Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages d'echecs, de succès.
-
+- Amélioration modification des utilisateurs
+- Ajout d'une vérification mise à jour profil pour chaque page
 
 # Comment importer le projet sur une autre machine ?
 
@@ -59,10 +62,6 @@ Prérequis :
         réalisées sur la page Mon Profil pour être plus tard mise dans liste
         des profils
 
-
-**Autres**
- - Mettre le plus de messages vers le fichier py/messages.py 
-    afin d'éviter de devoir tout modifier dans certaines conditions
     
 **Bugs à régler**
   - Les avatars ne se mettent pas à jour directement (problème de cache ?

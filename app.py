@@ -47,6 +47,7 @@ conn = mysql.connector.connect(host=bdd.MYSQL_HOST,
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 
+# Avatar code verification
 def validate_image(stream):
     header = stream.read(512)  # 512 bytes should be enough for a header check
     stream.seek(0)  # reset stream pointer
@@ -56,11 +57,30 @@ def validate_image(stream):
     return '.' + (format if format != 'jpeg' else 'jpg')
 
 
+# MAJ Profil
+def refresh_user():
+    if 'loggedin' in session:
+        conn = mysql.connector.connect(host=bdd.MYSQL_HOST,user=bdd.MYSQL_USER,
+                                       password=bdd.MYSQL_PASSWORD,database=bdd.MYSQL_DB)
+        cur = conn.cursor(dictionary=True)
+        cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
+        data = cur.fetchone()
+        print(data['connected'])
+        if data['connected'] == 0:
+            cur.execute('UPDATE users SET connected=0 WHERE pseudo = %s', (session['user']['pseudo'],))
+            conn.commit()
+            session.pop('loggedin', None)
+            session.pop('user', None)
+        else:
+            session['user'] = data
+
+
 # Accueil
 
 @app.route('/')
 @app.route('/home')
 def home():
+    refresh_user()
     return render_template('index.html.jinja', nom_ville=Messages.ville_name)
 
 
@@ -78,6 +98,9 @@ def login():
         data = cur.fetchone()
         if check_password_hash(data["password"], password):
             session['loggedin'] = True
+            cur.execute('UPDATE users SET connected=1 WHERE pseudo = %s', (data['pseudo'],))
+            conn.commit()
+            data['connected'] = 1
             session['user'] = data
             flash(Messages.login_success, 'success')
             return redirect(url_for('home'))
@@ -89,6 +112,9 @@ def login():
 @app.route('/logout')
 def logout():
     if 'loggedin' in session:
+        cur = conn.cursor(dictionary=True)
+        cur.execute('UPDATE users SET connected=0 WHERE pseudo = %s', (session['user']['pseudo'],))
+        conn.commit()
         session.pop('loggedin', None)
         session.pop('user', None)
         flash(Messages.logout_success, 'warning')
@@ -100,6 +126,7 @@ def logout():
 @app.route('/emprunts', defaults={'page': 1})
 @app.route('/emprunts/pages/<int:page>')
 def emprunts(page):
+    refresh_user()
     if 'loggedin' in session:
         limit = 5
         offset = page * limit - limit
@@ -127,6 +154,7 @@ def emprunts(page):
 
 @app.route('/emprunts/liste')
 def emprunts_list():
+    refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
         cur.execute('SELECT * '
@@ -134,21 +162,30 @@ def emprunts_list():
                     'ORDER BY YEAR(date)')
         data = cur.fetchall()
         return render_template('emprunts/liste.html.jinja', emprunts=data, )
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 
 @app.route('/emprunts/delete/<int:id>')
 def delete_emprunt(id):
-    cur = conn.cursor()
-    cur.execute('DELETE FROM emprunts WHERE id = {0}'.format(id))
-    conn.commit()
-    cur.execute('DELETE FROM details_emprunts WHERE emprunt_id ={0}'.format(id))
-    conn.commit()
-    flash(Messages.delete_emprunts, 'success')
-    return redirect(url_for('emprunts_list'))
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor()
+        cur.execute('DELETE FROM emprunts WHERE id = {0}'.format(id))
+        conn.commit()
+        cur.execute('DELETE FROM details_emprunts WHERE emprunt_id ={0}'.format(id))
+        conn.commit()
+        flash(Messages.delete_emprunts, 'success')
+        return redirect(url_for('emprunts_list'))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 
 @app.route('/emprunts/<int:annee>')
 def emprunts_annee(annee):
+    refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
         data = {}
@@ -171,6 +208,7 @@ def emprunts_annee(annee):
 
 @app.route('/emprunts/add', methods=['GET', 'POST'])
 def add_emprunt():
+    refresh_user()
     if 'loggedin' in session:
         error = None
         form = AddEmprunt()
@@ -230,6 +268,7 @@ def add_emprunt():
 
 @app.route('/emprunts/edit', methods=['GET', 'POST'])
 def edit_emprunt():
+    refresh_user()
     if 'loggedin' in session:
         return render_template('emprunts/edit.html.jinja')
     else:
@@ -241,6 +280,7 @@ def edit_emprunt():
 
 @app.route('/caf')
 def caf():
+    refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True)
         cur.execute('SELECT * FROM caf GROUP BY annee')
@@ -267,6 +307,7 @@ def caf():
 
 @app.route('/caf/edit', methods=['GET', 'POST'])
 def add_caf():
+    refresh_user()
     if 'loggedin' in session:
         error = None
         form = AddCAF()
@@ -301,6 +342,7 @@ def add_caf():
 
 @app.route('/caf/edit/<int:annee>', methods=['GET', 'POST'])
 def edit_caf(annee):
+    refresh_user()
     if 'loggedin' in session:
         error = None
         form = EditCAF()
@@ -332,17 +374,22 @@ def edit_caf(annee):
 
 @app.route('/caf/delete/<int:annee>')
 def delete_caf(annee):
-    cur = conn.cursor()
-    cur.execute('DELETE FROM caf WHERE annee = {0}'.format(annee))
-    conn.commit()
-    flash(Messages.delete_caf, 'success')
-    return redirect(url_for('caf'))
-
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor()
+        cur.execute('DELETE FROM caf WHERE annee = {0}'.format(annee))
+        conn.commit()
+        flash(Messages.delete_caf, 'success')
+        return redirect(url_for('caf'))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 # PROFIL
 
 @app.route('/profil', methods=['GET', 'POST'])
 def profil():
+    refresh_user()
     if 'loggedin' in session:
         error = None
         form = EditMyProfil()
@@ -378,6 +425,7 @@ def profil():
 
 @app.route('/profil/avatar', methods=['GET', 'POST'])
 def myavatar():
+    refresh_user()
     if 'loggedin' in session:
         error = None
         cur = conn.cursor(buffered=True, dictionary=True)
@@ -426,6 +474,7 @@ def myavatar():
 @app.route('/profil/list', defaults={'page': 1})
 @app.route('/profil/list/<int:page>')
 def profil_list(page):
+    refresh_user()
     if 'loggedin' in session:
         if session['user']['admin'] == 1:
             limit = 8
@@ -452,6 +501,7 @@ def profil_list(page):
 
 @app.route('/profil/add', methods=['GET', 'POST'])
 def profil_add():
+    refresh_user()
     if 'loggedin' in session:
         if session['user']['admin'] == 1:
             error = None
@@ -496,12 +546,13 @@ def profil_add():
 
 @app.route('/profil/list/edit/<int:id>', methods=['GET', 'POST'])
 def profil_edit(id):
+    refresh_user()
     if 'loggedin' in session:
         if session['user']['admin'] == 1:
             error = None
             form = EditUser()
             cur = conn.cursor(dictionary=True)
-            cur.execute("SELECT id, email, pseudo, firstname, lastname, fonction, telephone, adresse, admin "
+            cur.execute("SELECT id, avatar, email, pseudo, firstname, lastname, fonction, telephone, adresse, admin "
                         "FROM users WHERE id = %s", (id,))
             data = cur.fetchone()
             if form.validate_on_submit():
@@ -543,11 +594,16 @@ def profil_edit(id):
 
 @app.route('/profil/user/delete/<int:id>')
 def profil_delete(id):
-    cur = conn.cursor()  # on
-    cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
-    conn.commit()
-    flash(Messages.delete_profil, 'success')
-    return redirect(url_for('profil_list'))
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor()  # on
+        cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
+        conn.commit()
+        flash(Messages.delete_profil, 'success')
+        return redirect(url_for('profil_list'))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 
 # Calendrier

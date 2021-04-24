@@ -11,7 +11,7 @@
             <div class="mx-auto text-center my-4">
                 <h2 class="my-3">Modifier un utilisateur</h2>
                 <a class="navbar-brand mx-auto mb-3 flex-fill text-center">
-                    <img width="20%" src="{{ url_for("static", filename=session['user']['avatar']) }}" class="avatar-img rounded-circle">
+                    <img width="20%" src="{{ url_for("static", filename=data['avatar']) }}" class="avatar-img rounded-circle">
                 </a>
                 <h4 class="my-2">{{ data['pseudo'] }}</h4>
             </div>
@@ -64,24 +64,14 @@
             <hr class="my-4">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Mot de passe</label>
-                    <input class="form-control" name="password" value="{{ data['password'] }}">
+                    <label>Nouveau mot de passe</label>
+                    <input class="form-control" name="password">
                     {% for error in form.password.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
                     {% endfor %}
+                    <p class="small text-muted mb-2">Laissez vide pour ne pas changer</p>
                 </div>
             </div>
-            <div class="col-md-6">
-                <p class="mb-2">Requis pour le mot de passe</p>
-                <p class="small text-muted mb-2"> Pour créer un nouveau mot de passe, vous devez respecter tous les
-                    requis </p>
-                <ul class="small text-muted pl-4 mb-0">
-                    <li>Minimum 3 caractères</li>
-                    <li>Au moins un caractère spécial</li>
-                    <li>Au moins un chiffre</li>
-                </ul>
-            </div>
-    </div>
     {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
     <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
     </form>
