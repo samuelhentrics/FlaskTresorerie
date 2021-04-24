@@ -74,7 +74,6 @@ def refresh_user():
         else:
             session['user'] = data
             session['timestamp'] = str("?t="+str(calendar.timegm(time.gmtime()))) #correction avatar
-            print(session['timestamp'])
 
 
 # Accueil
