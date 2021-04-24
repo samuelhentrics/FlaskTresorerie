@@ -6,7 +6,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 
         Attention | Cette dernière mise à jour nécéssite une MAJ de la BDD.
 
-- Les messages d'erreurs des formulaires sont maintenant en français. (dispobible dans messages.py)
+- Les messages d'erreurs des formulaires sont maintenant en français. (disponible dans messages.py)
 - Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages d'echecs, de succès.
 - Amélioration modification des utilisateurs
 - Ajout d'une vérification mise à jour profil pour chaque page
