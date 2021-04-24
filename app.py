@@ -410,18 +410,32 @@ def profil():
                 telephone = request.form['telephone']
                 adresse = request.form['adresse']
                 email = request.form['email']
+                oldpassword = request.form['oldpassword']
+                newpassword = request.form['newpassword']
                 try:
-                    cur.execute("""UPDATE users
-                                    SET email = %s, firstname = %s,
-                                    lastname =%s, telephone = %s, adresse = %s
-                                    WHERE id = %s""", (email, firstname,
-                                                       lastname, telephone, adresse, session['user']['id']))
-                    conn.commit()
-                    cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
-                    session['user'] = cur.fetchone()
-                    flash(Messages.edit_myprofil_validate, 'success')
-
-                    return redirect(url_for('profil'))
+                    if oldpassword == '':
+                        cur.execute("""UPDATE users
+                                        SET email = %s, firstname = %s,
+                                        lastname =%s, telephone = %s, adresse = %s
+                                        WHERE id = %s""", (email, firstname,
+                                                           lastname, telephone, adresse, session['user']['id']))
+                        conn.commit()
+                        flash(Messages.edit_myprofil_validate, 'success')
+                        return redirect(url_for('profil'))
+                    else:
+                        if check_password_hash(session['user']['password'], oldpassword):
+                            cur.execute("""UPDATE users
+                                            SET email = %s, firstname = %s, lastname =%s, telephone = %s, adresse = %s,
+                                            password=%s
+                                            WHERE id = %s""",
+                                        (email, firstname, lastname, telephone, adresse,
+                                        generate_password_hash(newpassword), session['user']['id']))
+                            conn.commit()
+                            flash(Messages.edit_myprofil_validate, 'success')
+                            return redirect(url_for('profil'))
+                        else:
+                            flash(Messages.edit_myprofil_password_error, 'warning')
+                            return redirect(url_for('profil'))
                 except:
                     flash(Messages.edit_myprofil_error, 'warning')
                     conn.rollback()
@@ -538,11 +552,10 @@ def profil_add():
                         return render_template('profil/add.html.jinja', form=form, error=error)
                     else:
                         try:
-                            password = generate_password_hash(password)
                             cur.execute(
                                 "INSERT INTO users (firstname,lastname,fonction,telephone,adresse,pseudo,password,email"
                                 ",admin) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                                    firstname, lastname, fonction, telephone, adresse, pseudo, password, email, admin))
+                                    firstname, lastname, fonction, telephone, adresse, pseudo, generate_password_hash(password), email, admin))
                             conn.commit()
                             flash(Messages.add_profil_validate, 'success')
                             return redirect(url_for('profil_list'))

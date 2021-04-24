@@ -64,14 +64,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail4">Email</label>
+                            <label for="email">Email</label>
                             <input type="email" class="form-control" name="email" value="{{ session['user']['email'] }}">
                             {% for error in form.email.errors %}
                                     <span class="badge badge-danger">{{ error }}</span>
                             {% endfor %}
                         </div>
                         <div class="form-group">
-                            <label for="inputAddress5">Adresse</label>
+                            <label for="adresse">Adresse</label>
                             <input type="text" class="form-control" name="adresse"
                                    value="{{ session['user']['adresse'] }}">
                             {% for error in form.adresse.errors %}
@@ -80,7 +80,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputCompany5">Téléphone</label>
+                                <label for="telephone">Téléphone</label>
                                 <input type="text" class="form-control" name="telephone"
                                        value="0{{ session['user']['telephone'] }}">
                                 {% for error in form.telephone.errors %}
@@ -88,7 +88,7 @@
                                 {% endfor %}
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputCompany5">Pseudo (ne peut être changé)</label>
+                                <label for="pseudo">Pseudo (ne peut être changé)</label>
                                 <input type="text" disabled=disabled class="form-control" name="pseudo"
                                        value="{{ session['user']['pseudo'] }}">
                             </div>
@@ -97,27 +97,26 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputPassword4">Ancien mot de passe</label>
-                                    <input type="password" class="form-control" id="password" placeholder="">
+                                    <label for="oldpassword">Mot de passe actuel</label>
+                                    <input type="password" class="form-control" name="oldpassword">
+                                    {% for error in form.oldpassword.errors %}
+                                        <span class="badge badge-danger">{{ error }}</span>
+                                    {% endfor %}
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword5">Nouveau mot de passe</label>
-                                    <input type="password" class="form-control" id="inputPassword5">
+                                    <label for="newpassword">Nouveau mot de passe</label>
+                                    <input type="password" class="form-control" name="newpassword">
+                                    {% for error in form.newpassword.errors %}
+                                        <span class="badge badge-danger">{{ error }}</span>
+                                    {% endfor %}
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword6">Confirmer le mot de passe</label>
-                                    <input type="password" class="form-control" id="inputPassword6">
+                                    <label for="newpasswordconfirm">Confirmer le mot de passe</label>
+                                    <input type="password" class="form-control" name="newpasswordconfirm">
+                                    {% for error in form.newpasswordconfirm.errors %}
+                                        <span class="badge badge-danger">{{ error }}</span>
+                                    {% endfor %}
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="mb-2">Requis du mot de passe</p>
-                                <p class="small text-muted mb-2"> Pour créer un mot de passe, you have to meet all of
-                                    the following requirements: </p>
-                                <ul class="small text-muted pl-4 mb-0">
-                                    <li> Minimum 8 caractères</li>
-                                    <li>Au moins un caractère spécial</li>
-                                    <li>Au moins un chiffre</li>
-                                </ul>
                             </div>
                         </div>
                         {{ form.submit (class="btn btn-primary btn-lg btn-block") }}

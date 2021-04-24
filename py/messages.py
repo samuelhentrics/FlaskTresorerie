@@ -26,6 +26,7 @@ class Messages:
     #Mon Profil
     edit_myprofil_validate = "Votre profil a été modifié"
     edit_myprofil_error = "Erreur | Votre profil n'a pas été modifié"
+    edit_myprofil_password_error = "Erreur | Le mot de passe principal ne correspond pas"
     edit_myprofil_avatar_validate = "Votre avatar a été modifié"
     edit_myprofil_avatar_error = "Erreur | Votre avatar n'a pas été modifié, .png et .jpg uniquement accepté"
 

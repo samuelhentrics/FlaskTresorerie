@@ -50,6 +50,13 @@ class EditMyProfil(FlaskForm):
     telephone = IntegerField(validators=[DataRequired(message=Messages.data_required)])
     adresse = StringField(validators=[DataRequired(message=Messages.data_required)])
     email = StringField(validators=[DataRequired(message=Messages.data_required)])
+    oldpassword = PasswordField(validators=[Optional(),
+                                         length(min=3, max=20, message=Messages.password_len)])
+    newpassword = PasswordField(validators=[Optional(),
+                                         length(min=3, max=20, message=Messages.password_len)])
+    newpasswordconfirm = PasswordField(validators=[Optional(),
+                                                EqualTo('newpassword', message=Messages.equal_to_password),
+                                                length(min=3, max=20, message=Messages.password_len)])
     submit = SubmitField(Messages.edit_button)
 
 class EditUser(FlaskForm):
