@@ -17,6 +17,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
   de la visite de la page caf (annee par defaut étant celle actuelle)
 - Correction affichage boutons page "liste emprunts" et "emprunts"
 - Mise à jour du fichier css light.css (pour bouton suppression)
+- Logo mis à jour pour être vu dans le thême jour
 
 # Comment importer le projet sur une autre machine ?
 
