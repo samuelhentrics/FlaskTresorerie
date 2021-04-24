@@ -15,6 +15,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Correction d'une erreur de lien vers la page Ajouter une année dans CAF (localhost/caf/edit --> localhost/caf/add)
 - Si aucune année existe dans la page CAF, une année s'ajoutera automatiquement lors de l'ajout d'un emprunt ou lors
   de la visite de la page caf (annee par defaut étant celle actuelle)
+- Correction affichage boutons page "liste emprunts" et "emprunts"
 
 # Comment importer le projet sur une autre machine ?
 
