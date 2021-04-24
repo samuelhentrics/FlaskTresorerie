@@ -11,7 +11,7 @@
             <form class="col-lg-3 mx-auto text-center" action="" method="post" enctype="multipart/form-data">
                 <h1 class="h2 mb-3">Changer votre avatar</h1>
                 <a class="navbar-brand mx-auto mb-3 flex-fill text-center">
-                    <img width="60%" src="{{ url_for("static", filename=session['user']['avatar']) }}" class="avatar-img rounded-circle">
+                    <img width="60%" src="{{ url_for("static", filename=session['user']['avatar']) }}{{ session['timestamp'] }}" class="avatar-img rounded-circle">
                 </a>
                 <div class="form-group">
                     <input type="file" name="file" class="btn btn-outline-primary active ">

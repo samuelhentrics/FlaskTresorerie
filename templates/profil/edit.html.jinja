@@ -11,7 +11,7 @@
             <div class="mx-auto text-center my-4">
                 <h2 class="my-3">Modifier un utilisateur</h2>
                 <a class="navbar-brand mx-auto mb-3 flex-fill text-center">
-                    <img width="20%" src="{{ url_for("static", filename=data['avatar']) }}" class="avatar-img rounded-circle">
+                    <img width="20%" src="{{ url_for("static", filename=data['avatar']) }}{{ session['timestamp'] }}" class="avatar-img rounded-circle">
                 </a>
                 <h4 class="my-2">{{ data['pseudo'] }}</h4>
             </div>

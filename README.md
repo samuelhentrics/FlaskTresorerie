@@ -18,6 +18,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Correction affichage boutons page "liste emprunts" et "emprunts"
 - Mise à jour du fichier css light.css (pour bouton suppression)
 - Logo mis à jour pour être vu dans le thême jour
+- Correction du bug qui rafraichissait pas automatiquement les avatars
 
 # Comment importer le projet sur une autre machine ?
 
@@ -70,11 +71,6 @@ Prérequis :
         réalisées sur la page Mon Profil pour être plus tard mise dans liste
         des profils
 
-    
-**Bugs à régler**
-  - Les avatars ne se mettent pas à jour directement (problème de cache ?
-    uniquement en localhost ?) (résolution le temps de, aller sur le lien de
-    l'image et rafraichir)
 
 # Anciennes mises à jour
 

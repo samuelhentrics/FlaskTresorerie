@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for("static", filename="css/simplebar.css") }}">
@@ -30,7 +31,7 @@
                     <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink"
                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="avatar avatar-sm mt-2">
-                    <img src="{{ url_for("static", filename=session['user']['avatar']) }}" alt="..."
+                    <img src="{{ url_for("static", filename=session['user']['avatar']) }}{{ session['timestamp'] }}" alt="Photo de profil"
                          class="avatar-img rounded-circle">
                   </span>
                     </a>

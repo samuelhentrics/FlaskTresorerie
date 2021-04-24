@@ -20,6 +20,7 @@ from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, E
 from py.messages import Messages
 import locale
 import calendar
+import time
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
@@ -72,6 +73,8 @@ def refresh_user():
             session.pop('user', None)
         else:
             session['user'] = data
+            session['timestamp'] = str("?t="+str(calendar.timegm(time.gmtime()))) #correction avatar
+            print(session['timestamp'])
 
 
 # Accueil
@@ -101,6 +104,8 @@ def login():
             conn.commit()
             data['connected'] = 1
             session['user'] = data
+            session['timestamp'] = "?t="+str(calendar.timegm(time.gmtime()))
+            print(session['timestamp'])
             flash(Messages.login_success, 'success')
             return redirect(url_for('home'))
         else:
