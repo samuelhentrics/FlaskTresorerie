@@ -62,7 +62,6 @@ Prérequis :
 
 **CAF**
   - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
-  - Inclure l'ajout depuis la page principale
 
 **Fonctionnalités profil**
   - ~~Avatar : ajouter des avatars par defauts~~ idée annulé

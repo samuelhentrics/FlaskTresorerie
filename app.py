@@ -503,6 +503,9 @@ def profil_list(page):
                                    maximum=total_page,
                                    pages=range(1, int(total_page) + 1), next=next,
                                    prev=prev)
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -548,6 +551,9 @@ def profil_add():
                             conn.rollback()
                             return redirect(url_for('profil_list'))
             return render_template('profil/add.html.jinja', form=form, error=error)
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -596,6 +602,9 @@ def profil_edit(id):
                         conn.rollback()
                         return render_template('profil/edit.html.jinja', data=data[0], form=form, error=error)
             return render_template('profil/edit.html.jinja', data=data, form=form, error=error)
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -605,11 +614,15 @@ def profil_edit(id):
 def profil_delete(id):
     refresh_user()
     if 'loggedin' in session:
-        cur = conn.cursor()  # on
-        cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
-        conn.commit()
-        flash(Messages.delete_profil, 'success')
-        return redirect(url_for('profil_list'))
+        if session['user']['admin'] == 1:
+            cur = conn.cursor()  # on
+            cur.execute('DELETE FROM users WHERE id = {0}'.format(id))
+            conn.commit()
+            flash(Messages.delete_profil, 'success')
+            return redirect(url_for('profil_list'))
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -619,8 +632,12 @@ def profil_delete(id):
 
 @app.route('/calendar')
 def calendrier():
-    return render_template('calendar/index.html.jinja')
-
+    refresh_user()
+    if 'loggedin' in session:
+        return render_template('calendar/index.html.jinja')
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 """Déclaration des pages d'erreur classiques : 403, 404 et 500"""
 

@@ -2,6 +2,7 @@ class Messages:
     """APP.PY"""
     ville_name = "Uhart Mixe"
     need_login = "Vous devez être connecté pour accéder à cette page"
+    need_admin = "Vous devez être admin pour accéder à cette page"
 
     # Login
     incorrect_password = 'Mot de passe incorrect'
