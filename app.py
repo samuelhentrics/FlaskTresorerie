@@ -104,7 +104,6 @@ def login():
             data['connected'] = 1
             session['user'] = data
             session['timestamp'] = "?t="+str(calendar.timegm(time.gmtime()))
-            print(session['timestamp'])
             flash(Messages.login_success, 'success')
             return redirect(url_for('home'))
         else:
@@ -238,7 +237,6 @@ def add_emprunt():
                     restant = int(echeance)
                     cur.execute('SELECT MAX(annee) AS annee FROM caf')
                     caf_annee_max = cur.fetchone()
-                    print(caf_annee_max)
                     if not caf_annee_max['annee']:
                         cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
                         conn.commit()
