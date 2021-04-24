@@ -2383,6 +2383,31 @@ input[type="button"].btn-block {
     pointer-events: none;
     background-color: transparent; }
 
+
+  .dropdown-item-confirmation {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0; }
+  .dropdown-item-confirmation:hover, .dropdown-item-confirmation:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa; }
+  .dropdown-item-confirmation.active, .dropdown-item-confirmation:active {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #1b68ff; }
+  .dropdown-item-confirmation.disabled, .dropdown-item-confirmation:disabled {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent; }
+
 .dropdown-menu.show {
   display: block; }
 
