@@ -13,13 +13,15 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Statut connection / admin disponible dans la liste des profils
 - La sécurité du site a été renforcée
 - Correction d'une erreur de lien vers la page Ajouter une année dans CAF (localhost/caf/edit --> localhost/caf/add)
+- Si aucune année existe dans la page CAF, une année s'ajoutera automatiquement lors de l'ajout d'un emprunt ou lors
+  de la visite de la page caf
 
 # Comment importer le projet sur une autre machine ?
 
 Prérequis :
-- Ubuntu
+- Ubuntu 20.04 (recommandé)
 - Python 3.9 (recommandé)
-- Pycharm 2021.1
+- Pycharm 2021.1 (recommandé)
 - PHPMyAdmin
 - Les fichiers de ce projet
 

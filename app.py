@@ -20,7 +20,7 @@ from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, E
 from py.messages import Messages
 import locale
 import calendar
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
 __authors__ = ("Samuel HENTRICS", "Julen ELizalde")
@@ -60,12 +60,11 @@ def validate_image(stream):
 # MAJ Profil
 def refresh_user():
     if 'loggedin' in session:
-        conn = mysql.connector.connect(host=bdd.MYSQL_HOST,user=bdd.MYSQL_USER,
-                                       password=bdd.MYSQL_PASSWORD,database=bdd.MYSQL_DB)
+        conn = mysql.connector.connect(host=bdd.MYSQL_HOST, user=bdd.MYSQL_USER,
+                                       password=bdd.MYSQL_PASSWORD, database=bdd.MYSQL_DB)
         cur = conn.cursor(dictionary=True)
         cur.execute('SELECT * FROM users WHERE pseudo = %s', (session['user']['pseudo'],))
         data = cur.fetchone()
-        print(data['connected'])
         if data['connected'] == 0:
             cur.execute('UPDATE users SET connected=0 WHERE pseudo = %s', (session['user']['pseudo'],))
             conn.commit()
@@ -73,6 +72,7 @@ def refresh_user():
             session.pop('user', None)
         else:
             session['user'] = data
+
 
 # Accueil
 
@@ -234,6 +234,11 @@ def add_emprunt():
                     restant = int(echeance)
                     cur.execute('SELECT MAX(annee) AS annee FROM caf')
                     caf_annee_max = cur.fetchone()
+                    print(caf_annee_max)
+                    if not caf_annee_max['annee']:
+                        cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+                        conn.commit()
+                        caf_annee_max = {'annee': datetime.now().year}
                     while restant >= 0:
                         cur.execute(
                             "INSERT INTO details_emprunts (date,emprunt_id,restant) "
@@ -284,6 +289,10 @@ def caf():
         cur = conn.cursor(dictionary=True)
         cur.execute('SELECT * FROM caf GROUP BY annee')
         caf = cur.fetchall()
+        if not caf:
+            cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+            conn.commit()
+            caf = [{'annee': datetime.now().year, 'recettes': 1, 'depenses': 1}]
         for i in range(len(caf)):
             caf[i]['ebf'] = caf[i]['recettes'] - caf[i]['depenses']
             cur.execute('SELECT SUM(e.capital) AS capital, SUM(e.interet) AS interet '
@@ -383,6 +392,7 @@ def delete_caf(annee):
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
+
 
 # PROFIL
 
