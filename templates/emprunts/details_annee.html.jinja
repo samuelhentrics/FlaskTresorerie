@@ -3,6 +3,13 @@
 {% block title %}Emprunts{% endblock %}
 
 {% block body %}
+    <div class="col-12">
+        <div class="row align-items-center my-4">
+            <div class="col">
+                <h2 class="h3 mb-0 page-title">Emprunts de l'année {{ annee }}</h2>
+            </div>
+        </div>
+    </div>
     <div class="card shadow">
         <div class="card-body">
             <!-- table -->
@@ -15,7 +22,6 @@
                     <th scope="col">Periodicité</th>
                     <th scope="col">Echeance</th>
                     <th scope="col">Preteur</th>
-                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 {% for mois in data %}
@@ -32,17 +38,6 @@
                                 <td>{{ emprunt['periodicite'] }}</td>
                                 <td>{{ emprunt['restant'] }}/{{ emprunt['echeance'] }}</td>
                                 <td>{{ emprunt['preteur'] }}</td>
-                                <td>
-                                    <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                        <span class="text-muted sr-only">Action</span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Edit</a>
-                                        <a class="dropdown-item" href="#">Remove</a>
-                                        <a class="dropdown-item" href="#">Assign</a>
-                                    </div>
-                                </td>
                             </tr>
                         {% endfor %}
                     {% endif %}
