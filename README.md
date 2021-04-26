@@ -5,25 +5,9 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
         Attention, depuis le 24/04/2021, une nouvelle BDD est disponible veuillez
         la mettre à jour si cela n'est pas déjà fait
 
-# Dernière mise à jour (24/04/2021)
+# Dernière mise à jour (26/04/2021)
 
-        Attention | Cette dernière mise à jour nécéssite une MAJ de la BDD.
-
-- Les messages d'erreurs des formulaires sont maintenant en français. (disponible dans messages.py)
-- Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages d'echecs, de succès.
-- Amélioration modification des utilisateurs
-- Ajout d'un rafraichissement du profil pour chaque page
-- Statut connection / admin disponible dans la liste des profils
-- La sécurité du site a été renforcée
-- Correction d'une erreur de lien vers la page Ajouter une année dans CAF (localhost/caf/edit --> localhost/caf/add)
-- Si aucune année existe dans la page CAF, une année s'ajoutera automatiquement lors de l'ajout d'un emprunt ou lors
-  de la visite de la page caf (annee par defaut étant celle actuelle)
-- Correction affichage boutons page "liste emprunts" et "emprunts"
-- Mise à jour du fichier css light.css (pour bouton suppression)
-- Logo mis à jour pour être vu dans le thême jour
-- Correction du bug qui rafraichissait pas automatiquement les avatars (utilisation de timestamps)
-- Modification du mot de passe possible depuis le compte utilisé (page Mon Profil)
-- Modification des avatars possible depuis "Liste des profils"
+- Possibilité de déconnecter un utilisateur depuis la liste de profil.
 
 # Comment importer le projet sur une autre machine ?
 
@@ -73,6 +57,29 @@ Prérequis :
 
 
 # Anciennes mises à jour
+
+Mise à jour du 23/04/2021
+
+        - Les messages d'erreurs des formulaires sont maintenant en français.
+        (disponible dans messages.py)
+        - Les messages d'app.py ont été mis dans messages.py pour mieux gérer les messages
+          d'echecs, de succès.
+        - Amélioration modification des utilisateurs
+        - Ajout d'un rafraichissement du profil pour chaque page
+        - Statut connection / admin disponible dans la liste des profils
+        - La sécurité du site a été renforcée
+        - Correction d'une erreur de lien vers la page Ajouter une année dans CAF
+          (localhost/caf/edit --> localhost/caf/add)
+        - Si aucune année existe dans la page CAF, une année s'ajoutera automatiquement lors de
+          l'ajout d'un emprunt ou lors de la visite de la page caf (annee par defaut étant celle
+          actuelle)
+        - Correction affichage boutons page "liste emprunts" et "emprunts"
+        - Mise à jour du fichier css light.css (pour bouton suppression)
+        - Logo mis à jour pour être vu dans le thême jour
+        - Correction du bug qui rafraichissait pas automatiquement les avatars
+          (utilisation de timestamps)
+        - Modification du mot de passe possible depuis le compte utilisé (page Mon Profil)
+        - Modification des avatars possible depuis "Liste des profils"
 
 Mise à jour du 23/04/2021
 

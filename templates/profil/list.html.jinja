@@ -66,6 +66,10 @@
                                                         class="fe fe-edit fe-12 mr-4"></i>Modifier</a>
                                                 <a class="dropdown-item" href="mailto:{{ user['email'] }}"><i
                                                         class="fe fe-mail fe-12 mr-4"></i>Email</a>
+                                                {% if user['connected']==1 %}
+                                                    <a class="dropdown-item" href="{{ url_for('profil_disconnect', id=user['id']) }}"><i
+                                                            class="fe fe-user-minus fe-12 mr-4"></i>Deconnecter</a>
+                                                {% endif %}
                                                 <a class="dropdown-item-confirmation"
                                                    href="{{ url_for('profil_delete', id=user['id']) }}"><i
                                                         class="fe fe-trash fe-12 mr-4"></i>Supprimer</a>

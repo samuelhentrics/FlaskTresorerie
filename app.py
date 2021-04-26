@@ -71,7 +71,7 @@ def refresh_user():
             session.pop('user', None)
         else:
             session['user'] = data
-            session['timestamp'] = str("?t="+str(calendar.timegm(time.gmtime()))) #correction avatar
+            session['timestamp'] = str("?t=" + str(calendar.timegm(time.gmtime())))  # correction avatar
 
 
 # Accueil
@@ -101,7 +101,7 @@ def login():
             conn.commit()
             data['connected'] = 1
             session['user'] = data
-            session['timestamp'] = "?t="+str(calendar.timegm(time.gmtime()))
+            session['timestamp'] = "?t=" + str(calendar.timegm(time.gmtime()))
             flash(Messages.login_success, 'success')
             return redirect(url_for('home'))
         else:
@@ -429,7 +429,7 @@ def profil():
                                             password=%s
                                             WHERE id = %s""",
                                         (email, firstname, lastname, telephone, adresse,
-                                        generate_password_hash(newpassword), session['user']['id']))
+                                         generate_password_hash(newpassword), session['user']['id']))
                             conn.commit()
                             flash(Messages.edit_myprofil_validate, 'success')
                             return redirect(url_for('profil'))
@@ -555,7 +555,8 @@ def profil_add():
                             cur.execute(
                                 "INSERT INTO users (firstname,lastname,fonction,telephone,adresse,pseudo,password,email"
                                 ",admin) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                                    firstname, lastname, fonction, telephone, adresse, pseudo, generate_password_hash(password), email, admin))
+                                    firstname, lastname, fonction, telephone, adresse, pseudo,
+                                    generate_password_hash(password), email, admin))
                             conn.commit()
                             flash(Messages.add_profil_validate, 'success')
                             return redirect(url_for('profil_list'))
@@ -622,6 +623,7 @@ def profil_edit(id):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+
 @app.route('/profil/list/edit/avatar/<int:id>', methods=['GET', 'POST'])
 def avatar(id):
     refresh_user()
@@ -657,7 +659,7 @@ def avatar(id):
                             cur.execute("""UPDATE users
                                             SET avatar = %s
                                             WHERE id = %s""",
-                                        ('assets/avatars/' +  data['pseudo'] + file_ext, data['id']))
+                                        ('assets/avatars/' + data['pseudo'] + file_ext, data['id']))
                             conn.commit()
                             flash(Messages.edit_myprofil_avatar_validate, 'success')
                     return redirect(url_for('profil_list'))
@@ -674,6 +676,22 @@ def avatar(id):
         return redirect(url_for('login'))
 
 
+@app.route('/profil/user/disconnect/<int:id>')
+def profil_disconnect(id):
+    refresh_user()
+    if 'loggedin' in session:
+        if session['user']['admin'] == 1:
+            cur = conn.cursor()  # on
+            cur.execute('UPDATE users SET connected=0 WHERE id = {0}'.format(id))
+            conn.commit()
+            flash(Messages.disconnect_profil, 'success')
+            return redirect(url_for('profil_list'))
+        else:
+            flash(Messages.need_admin, "warning")
+            return redirect(url_for('home'))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 
 @app.route('/profil/user/delete/<int:id>')
@@ -704,6 +722,7 @@ def calendrier():
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
+
 
 """Déclaration des pages d'erreur classiques : 403, 404 et 500"""
 

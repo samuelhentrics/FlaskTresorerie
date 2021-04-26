@@ -37,6 +37,7 @@ class Messages:
     edit_profil_validate = "L'utilisateur a été modifié"
     edit_profil_error = "Erreur | L'utilisateur n'a pas été modifié"
     delete_profil = "L'utilisateur a été supprimé"
+    disconnect_profil = "L'utilisateur a été déconnecté"
 
     """FORM.PY"""
     login_button = "Se connecter"
