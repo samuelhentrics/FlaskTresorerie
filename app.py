@@ -240,11 +240,12 @@ def add_emprunt():
                         conn.commit()
                         caf_annee_max = {'annee': datetime.now().year}
                     while restant >= 0:
-                        cur.execute(
-                            "INSERT INTO details_emprunts (date,emprunt_id,restant) "
-                            "VALUES ('%s','%s','%s')" % (
-                                datecours, last_id['id'], restant))
-                        conn.commit()
+                        if restant !=0:
+                            cur.execute(
+                                "INSERT INTO details_emprunts (date,emprunt_id,restant) "
+                                "VALUES ('%s','%s','%s')" % (
+                                    datecours, last_id['id'], restant))
+                            conn.commit()
                         datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
                         cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
                         exist = cur.fetchone()

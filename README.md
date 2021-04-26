@@ -8,6 +8,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 # Dernière mise à jour (26/04/2021)
 
 - Possibilité de déconnecter un utilisateur depuis la liste de profil.
+- Correction d'un bug qui rajoutait une échéance en plus lors de l'ajout d'un emprunt
 
 # Comment importer le projet sur une autre machine ?
 
