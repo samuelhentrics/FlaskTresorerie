@@ -43,6 +43,7 @@ class Messages:
     login_button = "Se connecter"
     add_button = "Ajouter"
     edit_button = "Modifier"
+    simulate_button = "Simuler"
     data_required = "Ce champ ne peut-être vide"
     equal_to_password = "La confirmation du mot de passe a échoué"
     password_len = "Votre mot de passe doit contenir entre 3 et 20 caractères maximum"

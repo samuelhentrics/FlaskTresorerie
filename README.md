@@ -10,6 +10,7 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
 - Possibilité de déconnecter un utilisateur depuis la liste de profil
 - Correction d'un bug qui rajoutait une échéance en plus lors de l'ajout d'un emprunt
 - Modification présentation page des emprunts par année
+- Ajout page simulation (non fonctionnel à l'ajout mais simulation possible)
 
 # Comment importer le projet sur une autre machine ?
 

@@ -14,7 +14,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from PIL import Image
 import ConfigApp
-from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil
+from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil, AddEmpruntSimulation, \
+    Validate
 from py.messages import Messages
 import locale
 import calendar
@@ -240,7 +241,7 @@ def add_emprunt():
                         conn.commit()
                         caf_annee_max = {'annee': datetime.now().year}
                     while restant >= 0:
-                        if restant !=0:
+                        if restant != 0:
                             cur.execute(
                                 "INSERT INTO details_emprunts (date,emprunt_id,restant) "
                                 "VALUES ('%s','%s','%s')" % (
@@ -266,6 +267,88 @@ def add_emprunt():
                     conn.rollback()
                     return redirect(url_for('emprunts'))
         return render_template('emprunts/add.html.jinja', form=form, error=error)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/emprunts/simulation', defaults={'tauxr': 1, 'capitaldepart': 1, 'periodicite': 1, 'date': '01-01-2000',
+                                             'libelle': '', 'echeance': 1, 'preteur': 1, 'simulation': False},
+           methods=['GET', 'POST'])
+@app.route('/emprunts/simulation?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<date>&l=<libelle>&e=<int'
+           ':echeance>&p=<preteur>&s=<simulation>', methods=['GET', 'POST'])
+def simulation_emprunt(tauxr, capitaldepart, periodicite, date, libelle, echeance, preteur, simulation):
+    refresh_user()
+    if 'loggedin' in session:
+        error = None
+        form = AddEmpruntSimulation()
+        form_validate = Validate()
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                libelle = request.form['libelle']
+                capitaldepart = int(request.form['capitaldepart'])
+                tauxr = float(request.form['tauxr'])
+                datedebut = request.form['date']
+                periodicite = int(request.form['periodicite'])
+                echeance = int(request.form['echeance'])
+                preteur = request.form['preteur']
+                capital = capitaldepart / echeance
+                interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
+                return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate,
+                                       error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
+                                       date=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
+                                       capital=capital, interet=interet,
+                                       simulation=True)
+        if simulation:
+            if form_validate.validate_on_submit():
+                if request.method == 'POST':
+                    cur = conn.cursor(dictionary=True, buffered=True)
+                    capital = capitaldepart / echeance
+                    interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
+                    try:
+                        cur.execute(
+                            "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, preteur)"
+                            "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                                libelle, capitaldepart, capital, interet, date, periodicite, echeance, preteur))
+                        conn.commit()
+                        cur.execute("SELECT LAST_INSERT_ID() AS id FROM emprunts")
+                        last_id = cur.fetchone()
+                        datecours = date
+                        restant = int(echeance)
+                        cur.execute('SELECT MAX(annee) AS annee FROM caf')
+                        caf_annee_max = cur.fetchone()
+                        if not caf_annee_max['annee']:
+                            cur.execute(
+                                "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+                            conn.commit()
+                            caf_annee_max = {'annee': datetime.now().year}
+                        while restant >= 0:
+                            if restant != 0:
+                                cur.execute(
+                                    "INSERT INTO details_emprunts (date,emprunt_id,restant) "
+                                    "VALUES ('%s','%s','%s')" % (
+                                        datecours, last_id['id'], restant))
+                                conn.commit()
+                            datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
+                            cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                            exist = cur.fetchone()
+                            if not exist:
+                                cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                            "VALUES ('%s', '%s', '%s')" %
+                                            (int(datecours.strftime('%Y')) - 1, 0, 0))
+                                if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
+                                    cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                                "VALUES ('%s', '%s', '%s')" %
+                                                (int(datecours.strftime('%Y')), 0, 0))
+                            datecours = datecours.strftime('%Y-%m-%d')
+                            restant = restant - 1
+                        flash(Messages.add_emprunts_validate, 'success')
+                        return redirect(url_for('emprunts'))
+                    except:
+                        flash(Messages.add_emprunts_error, 'warning')
+                        conn.rollback()
+                        return redirect(url_for('emprunts'))
+        return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate, error=error)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
