@@ -273,7 +273,7 @@ def add_emprunt():
 
 
 @app.route('/emprunts/simulation', defaults={'tauxr': 1, 'capitaldepart': 1, 'periodicite': 1, 'date': '01-01-2000',
-                                             'libelle': '', 'echeance': 1, 'preteur': 1, 'simulation': False},
+                                             'libelle': '', 'echeance': 1, 'preteur': 1, 'simulation': ''},
            methods=['GET', 'POST'])
 @app.route('/emprunts/simulation?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<date>&l=<libelle>&e=<int'
            ':echeance>&p=<preteur>&s=<simulation>', methods=['GET', 'POST'])
@@ -283,23 +283,7 @@ def simulation_emprunt(tauxr, capitaldepart, periodicite, date, libelle, echeanc
         error = None
         form = AddEmpruntSimulation()
         form_validate = Validate()
-        if form.validate_on_submit():
-            if request.method == 'POST':
-                libelle = request.form['libelle']
-                capitaldepart = int(request.form['capitaldepart'])
-                tauxr = float(request.form['tauxr'])
-                datedebut = request.form['date']
-                periodicite = int(request.form['periodicite'])
-                echeance = int(request.form['echeance'])
-                preteur = request.form['preteur']
-                capital = capitaldepart / echeance
-                interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
-                return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate,
-                                       error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
-                                       date=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
-                                       capital=capital, interet=interet,
-                                       simulation=True)
-        if simulation:
+        if simulation==True:
             if form_validate.validate_on_submit():
                 if request.method == 'POST':
                     cur = conn.cursor(dictionary=True, buffered=True)
@@ -348,6 +332,23 @@ def simulation_emprunt(tauxr, capitaldepart, periodicite, date, libelle, echeanc
                         flash(Messages.add_emprunts_error, 'warning')
                         conn.rollback()
                         return redirect(url_for('emprunts'))
+        else:
+            print(simulation)
+            if form.validate_on_submit():
+                if request.method == 'POST':
+                    libelle = request.form['libelle']
+                    capitaldepart = int(request.form['capitaldepart'])
+                    tauxr = float(request.form['tauxr'])
+                    datedebut = request.form['date']
+                    periodicite = int(request.form['periodicite'])
+                    echeance = int(request.form['echeance'])
+                    preteur = request.form['preteur']
+                    capital = capitaldepart / echeance
+                    interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
+                    return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate,
+                                           error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
+                                           date=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
+                                           capital=capital, interet=interet, simulation=True)
         return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate, error=error)
     else:
         flash(Messages.need_login, "warning")
