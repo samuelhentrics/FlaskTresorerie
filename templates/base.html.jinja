@@ -37,13 +37,13 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ url_for('profil') }}">Profil</a>
-                        <a class="dropdown-item" href="{{ url_for('logout') }}">Deconnection</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">Déconnexion</a>
                     </div>
                 </li>
             {% else %}
                 <div class="mb-2">
                     <a href="{{ url_for('login') }}" class="btn mb-2 mr-3 btn-outline-primary active">
-                        <span class="fe fe-play fe-16 mr-2"></span>Connection
+                        <span class="fe fe-play fe-16 mr-2"></span>Connexion
                     </a>
                 </div>
             {% endif %}
