@@ -61,7 +61,7 @@ Prérequis :
 
 # Anciennes mises à jour
 
-Mise à jour du 23/04/2021
+Mise à jour du 24/04/2021
 
         - Les messages d'erreurs des formulaires sont maintenant en français.
         (disponible dans messages.py)
