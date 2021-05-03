@@ -449,7 +449,7 @@ def edit_caf(annee):
                 recettes = request.form['recettes']
                 try:
                     cur.execute("UPDATE caf "
-                                "SET depenses= %s,recettes = %s"
+                                "SET depenses= %s,recettes = %s "
                                 "WHERE annee=%s",
                                 (depenses, recettes, annee))
                     conn.commit()
@@ -561,7 +561,7 @@ def myavatar():
                                 os.path.join(app.config['UPLOAD_PATH'], session['user']['pseudo'] + file_ext),
                                 quality=95)
                         cur.execute("""UPDATE users
-                                        SET avatar = %s
+                                        SET avatar = %s 
                                         WHERE id = %s""",
                                     ('assets/avatars/' + session['user']['pseudo'] + file_ext, session['user']['id']))
                         conn.commit()
