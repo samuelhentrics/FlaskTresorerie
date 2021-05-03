@@ -129,7 +129,7 @@ def logout():
 def emprunts(page):
     refresh_user()
     if 'loggedin' in session:
-        limit = 5
+        limit = 15
         offset = page * limit - limit
         cur = conn.cursor(buffered=True, dictionary=True)
         cur.execute('SELECT * FROM details_emprunts GROUP BY YEAR(date)')
@@ -157,7 +157,7 @@ def emprunts(page):
 def emprunts_list():
     refresh_user()
     if 'loggedin' in session:
-        cur = conn.cursor(dictionary=True)
+        cur = conn.cursor(dictionary=True, buffered=True)
         cur.execute('SELECT * '
                     'FROM emprunts '
                     'ORDER BY YEAR(date)')
@@ -188,7 +188,7 @@ def delete_emprunt(id):
 def emprunts_annee(annee):
     refresh_user()
     if 'loggedin' in session:
-        cur = conn.cursor(dictionary=True)
+        cur = conn.cursor(dictionary=True, buffered=True)
         data = {}
         for i in range(1, 13):
             cur.execute(
@@ -371,7 +371,7 @@ def edit_emprunt():
 def caf():
     refresh_user()
     if 'loggedin' in session:
-        cur = conn.cursor(dictionary=True)
+        cur = conn.cursor(dictionary=True, buffered=True)
         cur.execute('SELECT * FROM caf GROUP BY annee')
         caf = cur.fetchall()
         if not caf:
@@ -439,7 +439,7 @@ def edit_caf(annee):
     if 'loggedin' in session:
         error = None
         form = EditCAF()
-        cur = conn.cursor(dictionary=True)
+        cur = conn.cursor(dictionary=True, buffered=True)
         cur.execute("SELECT recettes, depenses "
                     "FROM caf WHERE annee = %s", (annee,))
         data = cur.fetchone()
