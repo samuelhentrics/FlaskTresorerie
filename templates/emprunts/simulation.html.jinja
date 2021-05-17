@@ -1,35 +1,6 @@
 {% extends 'base.html.jinja' %}
 {% block title %}Simuler un emprunt{% endblock %}
 {% block body %}
-    {% if simulation %}
-    <div class="row">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header">
-                    <strong class="card-title">Résultat de la simulation</strong>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li>Libellé : {{ libelle }}</li>
-                        <li>Capital départ : {{ capitaldepart }}</li>
-                        <li>Capital : {{ capital }}</li>
-                        <li>Interet : {{ interet }}</li>
-                        <li>Date début : {{ date }}</li>
-                        <li>Périodicité : {{ periodicite }}</li>
-                        <li>Echeance : {{ echeance }}</li>
-                        <li>Preteur : {{ preteur }}</li>
-                    </ul>
-                    <div class="col text-right">
-                        <form action="{{ url_for('simulation_emprunt') }}" method="post">
-                        {{ form_validate.csrf_token }}
-                        {{ form_validate.submit (class="btn btn-primary") }}
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
     <div class="row align-items-center h-100">
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>

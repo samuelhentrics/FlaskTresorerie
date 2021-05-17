@@ -28,7 +28,7 @@ __contact__ = ("samuel.hentrics@gmail.com",
                "hentrics.samuel@ent-st-joseph-hasparren.fr",
                "elizalde.julen@ent-st-joseph-hasparren.fr",
                "julen.elizalde1@gmail.com")
-__paypal__ = ("Paypal Julen: paypal.me/Goldenhunter264,"
+__paypal__ = ("Paypal Julen: paypal.me/Goldenhunter264",
               "Paypal Samuel: paypal.me/SamuelHentrics")
 __version__ = "1.0.0"
 __copyright__ = "copyleft"
@@ -83,6 +83,12 @@ def home():
     refresh_user()
     return render_template('index.html.jinja', nom_ville=Messages.ville_name)
 
+# Info
+
+@app.route('/info')
+def info():
+    refresh_user()
+    return render_template('info.html.jinja')
 
 # Login
 
@@ -226,7 +232,8 @@ def add_emprunt():
                 cur = conn.cursor(buffered=True, dictionary=True)
                 try:
                     cur.execute(
-                        "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, preteur)"
+                        "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, "
+                        "preteur) "
                         "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
                             libelle, capitaldepart, capital, interet, datedebut, periodicite, echeance, preteur))
                     conn.commit()
@@ -255,9 +262,12 @@ def add_emprunt():
                                         "VALUES ('%s', '%s', '%s')" %
                                         (int(datecours.strftime('%Y')) - 1, 0, 0))
                             if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
-                                cur.execute("INSERT INTO caf (annee, recettes, depenses)"
-                                            "VALUES ('%s', '%s', '%s')" %
-                                            (int(datecours.strftime('%Y')), 0, 0))
+                                cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                                add_annee = cur.fetchone()
+                                if not add_annee:
+                                    cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                                "VALUES ('%s', '%s', '%s')" %
+                                                (int(datecours.strftime('%Y')), 0, 0))
                         datecours = datecours.strftime('%Y-%m-%d')
                         restant = restant - 1
                     flash(Messages.add_emprunts_validate, 'success')
@@ -272,84 +282,93 @@ def add_emprunt():
         return redirect(url_for('login'))
 
 
-@app.route('/emprunts/simulation', defaults={'tauxr': 1, 'capitaldepart': 1, 'periodicite': 1, 'date': '01-01-2000',
-                                             'libelle': '', 'echeance': 1, 'preteur': 1, 'simulation': ''},
-           methods=['GET', 'POST'])
-@app.route('/emprunts/simulation?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<date>&l=<libelle>&e=<int'
-           ':echeance>&p=<preteur>&s=<simulation>', methods=['GET', 'POST'])
-def simulation_emprunt(tauxr, capitaldepart, periodicite, date, libelle, echeance, preteur, simulation):
+@app.route('/emprunts/simulation', methods=['GET', 'POST'])
+def simulation_emprunt():
     refresh_user()
     if 'loggedin' in session:
         error = None
         form = AddEmpruntSimulation()
         form_validate = Validate()
-        if simulation==True:
-            if form_validate.validate_on_submit():
-                if request.method == 'POST':
-                    cur = conn.cursor(dictionary=True, buffered=True)
-                    capital = capitaldepart / echeance
-                    interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
-                    try:
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                libelle = request.form['libelle']
+                capitaldepart = int(request.form['capitaldepart'])
+                tauxr = float(request.form['tauxr'])
+                datedebut = request.form['date']
+                periodicite = int(request.form['periodicite'])
+                echeance = int(request.form['echeance'])
+                preteur = request.form['preteur']
+                capital = capitaldepart / echeance
+                interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
+                return redirect(url_for('simulation_emprunt_result', form_validate=form_validate,
+                                           error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
+                                           datedebut=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
+                                           capital=capital, interet=interet))
+        return render_template('emprunts/simulation.html.jinja', form=form, error=error)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/emprunts/simulation/result?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<datedebut>&l=<libelle>&e=<int'
+           ':echeance>&p=<preteur>', methods=['GET', 'POST'])
+def simulation_emprunt_result(tauxr, capitaldepart, periodicite, datedebut, libelle, echeance, preteur):
+    refresh_user()
+    if 'loggedin' in session:
+        error = None
+        form_validate = Validate()
+        capital = capitaldepart / echeance
+        interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
+        if form_validate.validate_on_submit():
+            if request.method == 'POST':
+                cur = conn.cursor(dictionary=True, buffered=True)
+                try:
+                    cur.execute(
+                        "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, preteur)"
+                        "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                            libelle, capitaldepart, capital, interet, datedebut, periodicite, echeance, preteur))
+                    conn.commit()
+                    cur.execute("SELECT LAST_INSERT_ID() AS id FROM emprunts")
+                    last_id = cur.fetchone()
+                    datecours = datedebut
+                    restant = int(echeance)
+                    cur.execute('SELECT MAX(annee) AS annee FROM caf')
+                    caf_annee_max = cur.fetchone()
+                    if not caf_annee_max['annee']:
                         cur.execute(
-                            "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, preteur)"
-                            "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                                libelle, capitaldepart, capital, interet, date, periodicite, echeance, preteur))
+                            "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
                         conn.commit()
-                        cur.execute("SELECT LAST_INSERT_ID() AS id FROM emprunts")
-                        last_id = cur.fetchone()
-                        datecours = date
-                        restant = int(echeance)
-                        cur.execute('SELECT MAX(annee) AS annee FROM caf')
-                        caf_annee_max = cur.fetchone()
-                        if not caf_annee_max['annee']:
+                        caf_annee_max = {'annee': datetime.now().year}
+                    while restant >= 0:
+                        if restant != 0:
                             cur.execute(
-                                "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+                                "INSERT INTO details_emprunts (date,emprunt_id,restant) "
+                                "VALUES ('%s','%s','%s')" % (
+                                    datecours, last_id['id'], restant))
                             conn.commit()
-                            caf_annee_max = {'annee': datetime.now().year}
-                        while restant >= 0:
-                            if restant != 0:
-                                cur.execute(
-                                    "INSERT INTO details_emprunts (date,emprunt_id,restant) "
-                                    "VALUES ('%s','%s','%s')" % (
-                                        datecours, last_id['id'], restant))
-                                conn.commit()
-                            datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
-                            cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
-                            exist = cur.fetchone()
-                            if not exist:
+                        datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
+                        cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                        exist = cur.fetchone()
+                        if not exist:
+                            cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                        "VALUES ('%s', '%s', '%s')" %
+                                        (int(datecours.strftime('%Y')) - 1, 0, 0))
+                            if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
                                 cur.execute("INSERT INTO caf (annee, recettes, depenses)"
                                             "VALUES ('%s', '%s', '%s')" %
-                                            (int(datecours.strftime('%Y')) - 1, 0, 0))
-                                if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
-                                    cur.execute("INSERT INTO caf (annee, recettes, depenses)"
-                                                "VALUES ('%s', '%s', '%s')" %
-                                                (int(datecours.strftime('%Y')), 0, 0))
-                            datecours = datecours.strftime('%Y-%m-%d')
-                            restant = restant - 1
-                        flash(Messages.add_emprunts_validate, 'success')
-                        return redirect(url_for('emprunts'))
-                    except:
-                        flash(Messages.add_emprunts_error, 'warning')
-                        conn.rollback()
-                        return redirect(url_for('emprunts'))
-        else:
-            print(simulation)
-            if form.validate_on_submit():
-                if request.method == 'POST':
-                    libelle = request.form['libelle']
-                    capitaldepart = int(request.form['capitaldepart'])
-                    tauxr = float(request.form['tauxr'])
-                    datedebut = request.form['date']
-                    periodicite = int(request.form['periodicite'])
-                    echeance = int(request.form['echeance'])
-                    preteur = request.form['preteur']
-                    capital = capitaldepart / echeance
-                    interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
-                    return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate,
-                                           error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
-                                           date=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
-                                           capital=capital, interet=interet, simulation=True)
-        return render_template('emprunts/simulation.html.jinja', form=form, form_validate=form_validate, error=error)
+                                            (int(datecours.strftime('%Y')), 0, 0))
+                        datecours = datecours.strftime('%Y-%m-%d')
+                        restant = restant - 1
+                    flash(Messages.add_emprunts_validate, 'success')
+                    return redirect(url_for('emprunts'))
+                except:
+                    flash(Messages.add_emprunts_error, 'warning')
+                    conn.rollback()
+                    return redirect(url_for('emprunts'))
+        return render_template('emprunts/simulation_result.html.jinja', form_validate=form_validate,
+                               error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
+                               datedebut=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
+                               capital=capital, interet=interet)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -379,6 +398,11 @@ def caf():
             conn.commit()
             caf = [{'annee': datetime.now().year, 'recettes': 1, 'depenses': 1}]
         for i in range(len(caf)):
+            if caf[i]['annee'] == datetime.now().year:
+                caf_actuelle = {'recettes': caf[i]['recettes'], 'depenses': caf[i]['depenses']}
+            if caf[i]['annee'] > datetime.now().year and caf[i]['recettes'] == 0 and caf[i]['depenses'] == 0:
+                caf[i]['recettes'] = caf_actuelle['recettes']
+                caf[i]['depenses'] = caf_actuelle['depenses']
             caf[i]['ebf'] = caf[i]['recettes'] - caf[i]['depenses']
             cur.execute('SELECT SUM(e.capital) AS capital, SUM(e.interet) AS interet '
                         'FROM emprunts e '
@@ -386,7 +410,7 @@ def caf():
                         'ON de.emprunt_id=e.id '
                         'WHERE YEAR(de.date)=%s', (int(caf[i]['annee']),))
             emprunts = cur.fetchone()
-            if emprunts['capital'] == None or emprunts['interet'] == None:
+            if emprunts['capital'] is None or emprunts['interet'] is None:
                 caf[i]['annuite'] = Messages.no_data
                 caf[i]['caf'] = Messages.no_data
             else:
@@ -626,7 +650,6 @@ def profil_add():
                     adresse = request.form['adresse']
                     pseudo = request.form['pseudo']
                     password = request.form['password']
-                    passwordconfirm = request.form['passwordconfirm']
                     email = request.form['email']
                     admin = 0
                     cur = conn.cursor()
