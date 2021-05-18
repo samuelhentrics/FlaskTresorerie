@@ -465,7 +465,7 @@ def caf():
     refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True, buffered=True)
-        cur.execute('SELECT * FROM caf ORDER BY annee')
+        cur.execute('SELECT * FROM caf GROUP BY annee ORDER BY annee')
         caf = cur.fetchall()
         if not caf:
             cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
