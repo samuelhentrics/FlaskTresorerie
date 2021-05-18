@@ -1,61 +1,79 @@
 {% extends 'base.html.jinja' %}
-{% block title %}Modifier un emprunt{% endblock %}
+{% block title %}Editer un emprunt{% endblock %}
 {% block body %}
-    <h1 class="text-center my-4">Modifier un jeu</h1>
-    <div class="container">
+    <div class="row align-items-center h-100">
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="bg-success py-3 px-3">
-                    <form action="/game/edit/{{ game.0 }}" method="post">
-                        {{ form.csrf_token }}
-                        <div class="form-group">
-                            <label for="model">Titre</label>
-                            <input type="text" class="form-control" name="titre" value="{{ game.1 }}"></input>
-                            {% for error in form.titre.errors %}
-                                <span class="badge badge-danger">{{ error }}</span>
-                            {% endfor %}
-
-                        </div>
-                        <div class="form-group">
-                            <label for="model">Description</label>
-                            <textarea class="form-control" name="description"
-                                      value="{{ game.2 }}">{{ game.2 }}</textarea>
-                            {% for error in form.description.errors %}
-                                <span class="badge badge-danger">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="form-group">
-                            <label for="model">Plateforme</label>
-                            <select class="form-control" name="plateforme">
-                                <option value="{{ game.3 }}" selected>{{ game.3 }} (Actuelle)</option>
-                                <option value="PC">PC</option>
-                                <option value="PS4">PS4</option>
-                                <option value="PS5">PS5</option>
-                                <option value="Xbox One">Xbox One</option>
-                                <option value="Xbox Series">Xbox Series</option>
-                                <option value="Nintendo Switch">Nintendo Switch</option>
-                                <option value="Multi-Plateforme">Multi-Plateforme</option>
-                            </select>
-                            {% for error in form.plateforme.errors %}
-                                <span class="badge badge-danger">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="form-group">
-                            <label for="model">Note</label>
-                            <input type="number" class="form-control" name="note" value="{{ game.4 }}"></input>
-                            {% for error in form.note.errors %}
-                                <span class="badge badge-danger">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="form-group">
-                            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
-                        </div>
-                    </form>
+        <form action="{{ url_for('edit_emprunt', id=id) }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
+            {{ form.csrf_token }}
+            <div class="mx-auto text-center my-4">
+                <h2 class="my-3">Editer un emprunt</h2>
+            </div>
+            <div class="form-group">
+                <label>Libelle</label>
+                <input type="text" class="form-control" name="libelle" value="{{ emprunt["libelle"] }}">
+                {% for error in form.libelle.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Capital de départ</label>
+                <input type="text" class="form-control" name="capitaldepart" value="{{ emprunt["capital_depart"] }}">
+                {% for error in form.capitaldepart.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Capital</label>
+                    <input type="text" name="capital" class="form-control" value="{{ emprunt["capital"] }}">
+                    {% for error in form.capital.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Interet</label>
+                    <input type="text" name="interet" class="form-control" value="{{ emprunt["interet"] }}">
+                    {% for error in form.interet.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Date du début</label>
+                    <input type="date" name="date" class="form-control" value="{{ emprunt["date"] }}">
+                    {% for error in form.date.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Preteur</label>
+                    <input type="text" class="form-control" name="preteur" value="{{ emprunt["preteur"] }}">
+                    {% for error in form.preteur.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Periodicité</label>
+                    <input type="text" name="periodicite" class="form-control" value="{{ emprunt["periodicite"] }}">
+                    {% for error in form.periodicite.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Echeance</label>
+                    <input type="text" class="form-control" name="echeance" value="{{ emprunt["echeance"] }}">
+                    {% for error in form.echeance.errors %}
+                        <span class="badge badge-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+            <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
+        </form>
     </div>
-{% endblock %}
+{% endblock body %}

@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import ConfigApp
 from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil, AddEmpruntSimulation, \
-    Validate
+    Validate, EditEmprunt
 from py.messages import Messages
 import locale
 import calendar
@@ -374,11 +374,85 @@ def simulation_emprunt_result(tauxr, capitaldepart, periodicite, datedebut, libe
         return redirect(url_for('login'))
 
 
-@app.route('/emprunts/edit', methods=['GET', 'POST'])
-def edit_emprunt():
+@app.route('/emprunts/edit?id=<id>', methods=['GET', 'POST'])
+def edit_emprunt(id):
     refresh_user()
     if 'loggedin' in session:
-        return render_template('emprunts/edit.html.jinja')
+        error = None
+        form = EditEmprunt()
+        cur = conn.cursor(buffered=True, dictionary=True)
+        cur.execute("SELECT * FROM emprunts WHERE id = %s", (id,))
+        emprunt = cur.fetchone()
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                print("test")
+                libelle = request.form['libelle']
+                capitaldepart = request.form['capitaldepart']
+                capital = request.form['capital']
+                interet = request.form['interet']
+                datedebut = request.form['date']
+                periodicite = request.form['periodicite']
+                echeance = request.form['echeance']
+                preteur = request.form['preteur']
+                print("test")
+                try:
+                    print("test")
+                    if datedebut != emprunt[date] or periodicite != emprunt[periodicite] or echeance != emprunt[echeance]:
+                        print("test2")
+                        delete_emprunt(id)
+                        cur.execute(
+                            "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, "
+                            "preteur) "
+                            "VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                                libelle, capitaldepart, capital, interet, datedebut, periodicite, echeance, preteur))
+                        conn.commit()
+                        cur.execute("SELECT LAST_INSERT_ID() AS id FROM emprunts")
+                        last_id = cur.fetchone()
+                        datecours = datedebut
+                        restant = int(echeance)
+                        cur.execute('SELECT MAX(annee) AS annee FROM caf')
+                        caf_annee_max = cur.fetchone()
+                        if not caf_annee_max['annee']:
+                            cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+                            conn.commit()
+                            caf_annee_max = {'annee': datetime.now().year}
+                        while restant >= 0:
+                            if restant != 0:
+                                cur.execute(
+                                    "INSERT INTO details_emprunts (date,emprunt_id,restant) "
+                                    "VALUES ('%s','%s','%s')" % (
+                                        datecours, last_id['id'], restant))
+                                conn.commit()
+                            datecours = date.fromisoformat(datecours) + relativedelta(months=int(periodicite))
+                            cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                            exist = cur.fetchone()
+                            if not exist:
+                                cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                            "VALUES ('%s', '%s', '%s')" %
+                                            (int(datecours.strftime('%Y')) - 1, 0, 0))
+                                if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
+                                    cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                                    add_annee = cur.fetchone()
+                                    if not add_annee:
+                                        cur.execute("INSERT INTO caf (annee, recettes, depenses)"
+                                                    "VALUES ('%s', '%s', '%s')" %
+                                                    (int(datecours.strftime('%Y')), 0, 0))
+                            datecours = datecours.strftime('%Y-%m-%d')
+                            restant = restant - 1
+                    else:
+                        print("test3")
+                        cur.execute(""" UPDATE emprunts
+                                        SET libelle = %s, capital_depart = %s, capital =%s, interet = %s, preteur = %s,
+                                        WHERE id = %s""",
+                                    (libelle, capitaldepart, capital, interet, preteur, session['user']['id']))
+                        conn.commit()
+                    flash(Messages.add_emprunts_validate, 'success')
+                    return redirect(url_for('emprunts'))
+                except:
+                    flash(Messages.add_emprunts_error, 'warning')
+                    conn.rollback()
+                    return redirect(url_for('emprunts'))
+        return render_template('emprunts/edit.html.jinja', form=form, error=error, emprunt=emprunt)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -391,7 +465,7 @@ def caf():
     refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True, buffered=True)
-        cur.execute('SELECT * FROM caf GROUP BY annee')
+        cur.execute('SELECT * FROM caf ORDER BY annee')
         caf = cur.fetchall()
         if not caf:
             cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)

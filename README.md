@@ -5,10 +5,9 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
         Attention, depuis le 24/04/2021, une nouvelle BDD est disponible veuillez
         la mettre à jour si cela n'est pas déjà fait
 
-# Dernière mise à jour (17/05/2021)
+# Dernière mise à jour (18/05/2021)
 
-- Debut ajout page info
-- Simulation emprunt fonctionnel
+- Debut edition emprunts
 
 # Comment importer le projet sur une autre machine ?
 
@@ -59,6 +58,11 @@ Prérequis :
 
 # Anciennes mises à jour
 
+Mise à jour du 17/05/2021
+
+    - Debut ajout page info
+    - Simulation emprunt fonctionnel
+
 Mise à jour du 03/05/2021
 
     - Mise à jour de la BDD
@@ -73,7 +77,7 @@ Mise à jour du 26/04/2021
     - Modification présentation page des emprunts par année
     - Ajout page simulation (non fonctionnel à l'ajout mais simulation possible)
 
-Mise à jour du 23/04/2021
+Mise à jour du 24/04/2021
 
         - Les messages d'erreurs des formulaires sont maintenant en français.
         (disponible dans messages.py)

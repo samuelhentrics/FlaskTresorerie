@@ -28,6 +28,17 @@ class AddEmprunt(FlaskForm):
     preteur = StringField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.add_button)
 
+class EditEmprunt(FlaskForm):
+    libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
+    capitaldepart = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    capital = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    interet = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    date = StringField(validators=[DataRequired(message=Messages.data_required)])
+    periodicite = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    echeance = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    preteur = StringField(validators=[DataRequired(message=Messages.data_required)])
+    submit = SubmitField(Messages.add_button)
+
 
 class AddEmpruntSimulation(FlaskForm):
     libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
