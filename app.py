@@ -83,12 +83,14 @@ def home():
     refresh_user()
     return render_template('index.html.jinja', nom_ville=Messages.ville_name)
 
+
 # Info
 
 @app.route('/info')
 def info():
     refresh_user()
     return render_template('info.html.jinja')
+
 
 # Login
 
@@ -301,17 +303,19 @@ def simulation_emprunt():
                 capital = capitaldepart / echeance
                 interet = math.ceil((tauxr * capitaldepart) / (1 - (1 / ((1 + tauxr) ** echeance))) - capital)
                 return redirect(url_for('simulation_emprunt_result', form_validate=form_validate,
-                                           error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
-                                           datedebut=datedebut, echeance=echeance, preteur=preteur, periodicite=periodicite,
-                                           capital=capital, interet=interet))
+                                        error=error, libelle=libelle, capitaldepart=capitaldepart, tauxr=tauxr,
+                                        datedebut=datedebut, echeance=echeance, preteur=preteur,
+                                        periodicite=periodicite,
+                                        capital=capital, interet=interet))
         return render_template('emprunts/simulation.html.jinja', form=form, error=error)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
 
-@app.route('/emprunts/simulation/result?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<datedebut>&l=<libelle>&e=<int'
-           ':echeance>&p=<preteur>', methods=['GET', 'POST'])
+@app.route(
+    '/emprunts/simulation/result?tr=<float:tauxr>&c=<int:capitaldepart>&p=<int:periodicite>&d=<datedebut>&l=<libelle>&e=<int'
+    ':echeance>&p=<preteur>', methods=['GET', 'POST'])
 def simulation_emprunt_result(tauxr, capitaldepart, periodicite, datedebut, libelle, echeance, preteur):
     refresh_user()
     if 'loggedin' in session:
@@ -397,8 +401,10 @@ def edit_emprunt(id):
                 print("test")
                 try:
                     print("test")
-                    if (datedebut != emprunt['date']) or (int(periodicite) != int(emprunt['periodicite'])) or (int(echeance) != int(emprunt['echeance'])):
-                        print(datedebut, emprunt['date'] ,periodicite , emprunt['periodicite'],echeance , emprunt['echeance'])
+                    if (datedebut != emprunt['date']) or (int(periodicite) != int(emprunt['periodicite'])) or (
+                            int(echeance) != int(emprunt['echeance'])):
+                        print(datedebut, emprunt['date'], periodicite, emprunt['periodicite'], echeance,
+                              emprunt['echeance'])
                         delete_emprunt(id)
                         cur.execute(
                             "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, "
@@ -413,7 +419,8 @@ def edit_emprunt(id):
                         cur.execute('SELECT MAX(annee) AS annee FROM caf')
                         caf_annee_max = cur.fetchone()
                         if not caf_annee_max['annee']:
-                            cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
+                            cur.execute(
+                                "INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
                             conn.commit()
                             caf_annee_max = {'annee': datetime.now().year}
                         while restant >= 0:
@@ -431,7 +438,8 @@ def edit_emprunt(id):
                                             "VALUES ('%s', '%s', '%s')" %
                                             (int(datecours.strftime('%Y')) - 1, 0, 0))
                                 if int(datecours.strftime('%Y')) > caf_annee_max['annee'] and restant == 0:
-                                    cur.execute('SELECT annee FROM caf WHERE annee=%s', (int(datecours.strftime('%Y')),))
+                                    cur.execute('SELECT annee FROM caf WHERE annee=%s',
+                                                (int(datecours.strftime('%Y')),))
                                     add_annee = cur.fetchone()
                                     if not add_annee:
                                         cur.execute("INSERT INTO caf (annee, recettes, depenses)"
@@ -575,6 +583,7 @@ def delete_caf(annee):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+
 @app.route('/caf/recettes/<int:annee>')
 def recettes_caf(annee):
     refresh_user()
@@ -587,6 +596,7 @@ def recettes_caf(annee):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+
 @app.route('/caf/recettes/<int:annee>/add', methods=['GET', 'POST'])
 def recettes_add_caf(annee):
     refresh_user()
@@ -598,11 +608,39 @@ def recettes_add_caf(annee):
                 cur = conn.cursor(dictionary=True, buffered=True)
                 objet = request.form['objet']
                 montant = request.form['montant']
-                cur.execute("INSERT INTO recettes (objet,montant, annee) VALUES ('%s','%s','%s')" % (objet, montant, annee))
+                cur.execute(
+                    "INSERT INTO recettes (objet,montant, annee) VALUES ('%s','%s','%s')" % (objet, montant, annee))
                 conn.commit()
                 flash(Messages.add_caf_recettes_validate, 'success')
                 return redirect(url_for('recettes_caf', annee=annee))
         return render_template('caf/recettes_add.html.jinja', form=form, error=error, annee=annee)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/caf/recettes/<int:annee>/delete/<int:id>', methods=['GET', 'POST'])
+def recettes_delete_caf(annee, id):
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor()
+        cur.execute('DELETE FROM recettes WHERE id = %s AND annee = %s', (id, annee))
+        conn.commit()
+        flash(Messages.delete_recettes_caf_validate, 'success')
+        return redirect(url_for('recettes_caf', annee=annee))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/caf/depenses/<int:annee>')
+def depenses_caf(annee):
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor(dictionary=True, buffered=True)
+        cur.execute('SELECT * FROM depenses WHERE annee=%s', (annee,))
+        depenses = cur.fetchall()
+        return render_template('caf/depenses.html.jinja', depenses=depenses, annee=annee)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
@@ -622,7 +660,7 @@ def depenses_add_caf(annee):
                 cur.execute(
                     "INSERT INTO depenses (objet,montant, annee) VALUES ('%s','%s','%s')" % (objet, montant, annee))
                 conn.commit()
-                flash(Messages.add_caf_recettes_validate, 'success')
+                flash(Messages.add_caf_depenses_validate, 'success')
                 return redirect(url_for('depenses_caf', annee=annee))
         return render_template('caf/depenses_add.html.jinja', form=form, error=error, annee=annee)
     else:

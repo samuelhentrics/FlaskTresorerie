@@ -23,8 +23,11 @@ class Messages:
     add_caf_error = "CAF non ajoutée"
     edit_caf_validate = "L'année a été modifiée"
     edit_caf_error = "CAF non modifiée"
-    delete_caf = "Cette année a été supprimé"
-    add_caf_recettes_validate = "Recette ajouté"
+    delete_caf = "Cette année a été supprimée"
+    add_caf_recettes_validate = "Recette ajoutée"
+    delete_recettes_caf_validate = "Recette supprimée"
+    add_caf_depenses_validate = "Dépense ajoutée"
+    delete_depenses_caf_validate = "Dépense supprimée"
 
     #Mon Profil
     edit_myprofil_validate = "Votre profil a été modifié"
