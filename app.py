@@ -668,6 +668,20 @@ def depenses_add_caf(annee):
         return redirect(url_for('login'))
 
 
+@app.route('/caf/depenses/<int:annee>/delete/<int:id>', methods=['GET', 'POST'])
+def depenses_delete_caf(annee, id):
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor()
+        cur.execute('DELETE FROM depenses WHERE id = %s AND annee = %s', (id, annee))
+        conn.commit()
+        flash(Messages.delete_depenses_caf_validate, 'success')
+        return redirect(url_for('depenses_caf', annee=annee))
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
 # PROFIL
 
 @app.route('/profil', methods=['GET', 'POST'])
