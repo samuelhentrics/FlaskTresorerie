@@ -999,18 +999,6 @@ def profil_delete(id):
         return redirect(url_for('login'))
 
 
-# Calendrier
-
-@app.route('/calendar')
-def calendrier():
-    refresh_user()
-    if 'loggedin' in session:
-        return render_template('calendar/index.html.jinja')
-    else:
-        flash(Messages.need_login, "warning")
-        return redirect(url_for('login'))
-
-
 """Déclaration des pages d'erreur classiques : 403, 404 et 500"""
 
 
