@@ -13,6 +13,8 @@ class Messages:
     delete_emprunts = "Cet emprunt a été supprimé"
     add_emprunts_validate = "Emprunt ajouté"
     add_emprunts_error = "L'emprunt n'a pas été ajouté"
+    edit_emprunts_validate = "Emprunt modifié"
+    edit_emprunts_error = "L'emprunt n'a pas été ajouté"
 
     #CAF
     no_data = "Manque de données"
@@ -22,6 +24,7 @@ class Messages:
     edit_caf_validate = "L'année a été modifiée"
     edit_caf_error = "CAF non modifiée"
     delete_caf = "Cette année a été supprimé"
+    add_caf_recettes_validate = "Recette ajouté"
 
     #Mon Profil
     edit_myprofil_validate = "Votre profil a été modifié"

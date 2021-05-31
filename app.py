@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import ConfigApp
 from py.form import LoginForm, AddUser, AddEmprunt, EditUser, AddCAF, EditCAF, EditMyProfil, AddEmpruntSimulation, \
-    Validate, EditEmprunt
+    Validate, EditEmprunt, AddRecettesCAF, AddDepensesCAF
 from py.messages import Messages
 import locale
 import calendar
@@ -445,10 +445,10 @@ def edit_emprunt(id):
                                         WHERE id = %s""",
                                     (libelle, capitaldepart, capital, interet, preteur, session['user']['id']))
                         conn.commit()
-                    flash(Messages.add_emprunts_validate, 'success')
+                    flash(Messages.edit_emprunts_validate, 'success')
                     return redirect(url_for('emprunts'))
                 except:
-                    flash(Messages.add_emprunts_error, 'warning')
+                    flash(Messages.edit_emprunts_error, 'warning')
                     conn.rollback()
                     return redirect(url_for('emprunts'))
         return render_template('emprunts/edit.html.jinja', form=form, error=error, emprunt=emprunt, id=id)
@@ -587,6 +587,47 @@ def recettes_caf(annee):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+@app.route('/caf/recettes/<int:annee>/add', methods=['GET', 'POST'])
+def recettes_add_caf(annee):
+    refresh_user()
+    if 'loggedin' in session:
+        error = None
+        form = AddRecettesCAF()
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                cur = conn.cursor(dictionary=True, buffered=True)
+                objet = request.form['objet']
+                montant = request.form['montant']
+                cur.execute("INSERT INTO recettes (objet,montant, annee) VALUES ('%s','%s','%s')" % (objet, montant, annee))
+                conn.commit()
+                flash(Messages.add_caf_recettes_validate, 'success')
+                return redirect(url_for('recettes_caf', annee=annee))
+        return render_template('caf/recettes_add.html.jinja', form=form, error=error, annee=annee)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
+@app.route('/caf/depenses/<int:annee>/add', methods=['GET', 'POST'])
+def depenses_add_caf(annee):
+    refresh_user()
+    if 'loggedin' in session:
+        error = None
+        form = AddDepensesCAF()
+        if form.validate_on_submit():
+            if request.method == 'POST':
+                cur = conn.cursor(dictionary=True, buffered=True)
+                objet = request.form['objet']
+                montant = request.form['montant']
+                cur.execute(
+                    "INSERT INTO depenses (objet,montant, annee) VALUES ('%s','%s','%s')" % (objet, montant, annee))
+                conn.commit()
+                flash(Messages.add_caf_recettes_validate, 'success')
+                return redirect(url_for('depenses_caf', annee=annee))
+        return render_template('caf/depenses_add.html.jinja', form=form, error=error, annee=annee)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
 
 
 # PROFIL

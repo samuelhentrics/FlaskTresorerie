@@ -1,0 +1,31 @@
+{% extends 'base.html.jinja' %}
+{% block title %}CAF - Ajouter une dépense{% endblock %}
+{% block body %}
+    <div class="row align-items-center h-100">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('depenses_add_caf', annee=annee) }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
+            {{ form.csrf_token }}
+            <div class="mx-auto text-center my-4">
+                <h2 class="my-3">Ajouter une dépense dans l'année {{ annee }}</h2>
+            </div>
+            <div class="form-group">
+                <label>Motif</label>
+                <input type="text" class="form-control" name="objet">
+                {% for error in form.objet.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Montant</label>
+                <input type="text" name="montant" class="form-control">
+                {% for error in form.montant.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            {{ form.submit (class="btn btn-primary btn-lg btn-block") }}
+            <p class="mt-5 mb-3 text-muted text-center">Julen Elizalde et Samuel HENTRICS © 2021</p>
+        </form>
+    </div>
+{% endblock body %}

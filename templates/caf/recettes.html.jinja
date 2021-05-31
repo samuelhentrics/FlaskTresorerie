@@ -8,7 +8,7 @@
             <div class="col">
                 <h2 class="h3 mb-0 page-title">Recettes de l'année {{ annee }}</h2>
             </div>
-            <a href="#">
+            <a href="{{ url_for('recettes_add_caf', annee=annee) }}">
                 <button type="button" class="btn btn-primary"><span class="fe fe-plus fe-12 mr-2"></span>Ajouter une recette
                 </button>
             </a>
@@ -28,8 +28,8 @@
                             <tbody>
                             {% for recette in recettes %}
                                 <tr>
-                                    <td>{{ depense['objet'] }}</td>
-                                    <td>{{ depense['montant'] }}</td>
+                                    <td>{{ recette['objet'] }}</td>
+                                    <td>{{ recette['montant'] }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-sm dropdown-toggle" type="button" id="dr1"

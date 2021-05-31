@@ -6,9 +6,9 @@
     <div class="col-12">
         <div class="row align-items-center my-4">
             <div class="col">
-                <h2 class="h3 mb-0 page-title">Depenses de l'année {{ annee }}</h2>
+                <h2 class="h3 mb-0 page-title">Dépenses de l'année {{ annee }}</h2>
             </div>
-            <a href="#">
+            <a href="{{ url_for('depenses_add_caf', annee=annee) }}">
                 <button type="button" class="btn btn-primary"><span class="fe fe-plus fe-12 mr-2"></span>Ajouter une dépense
                 </button>
             </a>

@@ -109,3 +109,13 @@ class EditCAF(FlaskForm):
     depenses = FloatField(validators=[DataRequired(message=Messages.data_required)])
     recettes = FloatField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.edit_button)
+
+class AddRecettesCAF(FlaskForm):
+    objet = StringField(validators=[DataRequired(message=Messages.data_required)])
+    montant = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    submit = SubmitField(Messages.add_button)
+
+class AddDepensesCAF(FlaskForm):
+    objet = StringField(validators=[DataRequired(message=Messages.data_required)])
+    montant = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    submit = SubmitField(Messages.add_button)
