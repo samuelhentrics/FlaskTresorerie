@@ -575,6 +575,19 @@ def delete_caf(annee):
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
 
+@app.route('/caf/recettes/<int:annee>')
+def recettes_caf(annee):
+    refresh_user()
+    if 'loggedin' in session:
+        cur = conn.cursor(dictionary=True, buffered=True)
+        cur.execute('SELECT * FROM recettes WHERE annee=%s', (annee,))
+        recettes = cur.fetchall()
+        return render_template('caf/recettes.html.jinja', recettes=recettes, annee=annee)
+    else:
+        flash(Messages.need_login, "warning")
+        return redirect(url_for('login'))
+
+
 
 # PROFIL
 

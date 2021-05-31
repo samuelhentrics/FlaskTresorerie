@@ -19,9 +19,9 @@ class LoginForm(FlaskForm):
 
 class AddEmprunt(FlaskForm):
     libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
-    capitaldepart = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    capital = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    interet = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    capitaldepart = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    capital = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    interet = FloatField(validators=[DataRequired(message=Messages.data_required)])
     date = StringField(validators=[DataRequired(message=Messages.data_required)])
     periodicite = IntegerField(validators=[DataRequired(message=Messages.data_required)])
     echeance = IntegerField(validators=[DataRequired(message=Messages.data_required)])
@@ -30,9 +30,9 @@ class AddEmprunt(FlaskForm):
 
 class EditEmprunt(FlaskForm):
     libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
-    capitaldepart = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    capital = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    interet = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    capitaldepart = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    capital = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    interet = FloatField(validators=[DataRequired(message=Messages.data_required)])
     date = StringField(validators=[DataRequired(message=Messages.data_required)])
     periodicite = IntegerField(validators=[DataRequired(message=Messages.data_required)])
     echeance = IntegerField(validators=[DataRequired(message=Messages.data_required)])
@@ -42,7 +42,7 @@ class EditEmprunt(FlaskForm):
 
 class AddEmpruntSimulation(FlaskForm):
     libelle = StringField(validators=[DataRequired(message=Messages.data_required)])
-    capitaldepart = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    capitaldepart = FloatField(validators=[DataRequired(message=Messages.data_required)])
     tauxr = FloatField(validators=[DataRequired(message=Messages.data_required)])
     date = StringField(validators=[DataRequired(message=Messages.data_required)])
     periodicite = IntegerField(validators=[DataRequired(message=Messages.data_required)])
@@ -100,12 +100,12 @@ class EditUser(FlaskForm):
 
 class AddCAF(FlaskForm):
     annee = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    depenses = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    recettes = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    depenses = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    recettes = FloatField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.add_button)
 
 
 class EditCAF(FlaskForm):
-    depenses = IntegerField(validators=[DataRequired(message=Messages.data_required)])
-    recettes = IntegerField(validators=[DataRequired(message=Messages.data_required)])
+    depenses = FloatField(validators=[DataRequired(message=Messages.data_required)])
+    recettes = FloatField(validators=[DataRequired(message=Messages.data_required)])
     submit = SubmitField(Messages.edit_button)

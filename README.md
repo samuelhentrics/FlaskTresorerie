@@ -2,13 +2,14 @@
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
-        Attention, depuis le 24/04/2021, une nouvelle BDD est disponible veuillez
+        Attention, depuis le 31/05/2021, une nouvelle BDD est disponible veuillez
         la mettre à jour si cela n'est pas déjà fait
 
 # Dernière mise à jour (31/05/2021)
 
 - Edition emprunt fonctionnel SAUF problème de condition (if avec les "or")
-- Création des fichiers depenses.html.jinja et recettes.html.jinja
+- Création des fichiers depenses.html.jinja et recettes.html.jinja pour la nouvelle BDD "Caf"
+- Nouvelle BDD pour les float (pour les emprunts, recettes et dépenses)
 
 # Comment importer le projet sur une autre machine ?
 
