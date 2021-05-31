@@ -374,7 +374,7 @@ def simulation_emprunt_result(tauxr, capitaldepart, periodicite, datedebut, libe
         return redirect(url_for('login'))
 
 
-@app.route('/emprunts/edit?id=<id>', methods=['GET', 'POST'])
+@app.route('/emprunts/edit/<int:id>', methods=['GET', 'POST'])
 def edit_emprunt(id):
     refresh_user()
     if 'loggedin' in session:
@@ -397,8 +397,8 @@ def edit_emprunt(id):
                 print("test")
                 try:
                     print("test")
-                    if datedebut != emprunt[date] or periodicite != emprunt[periodicite] or echeance != emprunt[echeance]:
-                        print("test2")
+                    if (datedebut != emprunt['date']) or (int(periodicite) != int(emprunt['periodicite'])) or (int(echeance) != int(emprunt['echeance'])):
+                        print(datedebut, emprunt['date'] ,periodicite , emprunt['periodicite'],echeance , emprunt['echeance'])
                         delete_emprunt(id)
                         cur.execute(
                             "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, "
@@ -440,7 +440,6 @@ def edit_emprunt(id):
                             datecours = datecours.strftime('%Y-%m-%d')
                             restant = restant - 1
                     else:
-                        print("test3")
                         cur.execute(""" UPDATE emprunts
                                         SET libelle = %s, capital_depart = %s, capital =%s, interet = %s, preteur = %s,
                                         WHERE id = %s""",
@@ -452,7 +451,7 @@ def edit_emprunt(id):
                     flash(Messages.add_emprunts_error, 'warning')
                     conn.rollback()
                     return redirect(url_for('emprunts'))
-        return render_template('emprunts/edit.html.jinja', form=form, error=error, emprunt=emprunt)
+        return render_template('emprunts/edit.html.jinja', form=form, error=error, emprunt=emprunt, id=id)
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))

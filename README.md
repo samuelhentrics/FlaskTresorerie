@@ -5,9 +5,9 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
         Attention, depuis le 24/04/2021, une nouvelle BDD est disponible veuillez
         la mettre à jour si cela n'est pas déjà fait
 
-# Dernière mise à jour (18/05/2021)
+# Dernière mise à jour (31/05/2021)
 
-- Debut edition emprunts
+- Edition emprunt fonctionnel SAUF problème de condition (if avec les "or")
 
 # Comment importer le projet sur une autre machine ?
 
@@ -57,6 +57,10 @@ Prérequis :
 
 
 # Anciennes mises à jour
+
+Mise à jour du 18/05/2021
+
+    - Debut edition emprunts
 
 Mise à jour du 17/05/2021
 
