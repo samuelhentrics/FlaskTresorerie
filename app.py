@@ -170,7 +170,7 @@ def emprunts_list():
                     'FROM emprunts '
                     'ORDER BY YEAR(date)')
         data = cur.fetchall()
-        return render_template('emprunts/liste.html.jinja', emprunts=data, )
+        return render_template('emprunts/liste.html', emprunts=data, )
     else:
         flash(Messages.need_login, "warning")
         return redirect(url_for('login'))
