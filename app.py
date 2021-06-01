@@ -28,6 +28,8 @@ __contact__ = ("samuel.hentrics@gmail.com",
                "hentrics.samuel@ent-st-joseph-hasparren.fr",
                "elizalde.julen@ent-st-joseph-hasparren.fr",
                "julen.elizalde1@gmail.com")
+__paypal__ = ("Paypal Julen: paypal.me/Goldenhunter264",
+              "Paypal Samuel: paypal.me/SamuelHentrics")
 __version__ = "1.0.0"
 __copyright__ = "copyleft"
 __date__ = "21/08/02"
@@ -997,7 +999,7 @@ def profil_delete(id):
         return redirect(url_for('login'))
 
 
-"""Déclaration des pages d'erreur classiques : 403, 404 et 500"""
+"""Déclaration des pages d'erreur classiques : 403, 404, 413 et 500"""
 
 
 @app.errorhandler(403)
