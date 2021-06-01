@@ -28,8 +28,6 @@ __contact__ = ("samuel.hentrics@gmail.com",
                "hentrics.samuel@ent-st-joseph-hasparren.fr",
                "elizalde.julen@ent-st-joseph-hasparren.fr",
                "julen.elizalde1@gmail.com")
-__paypal__ = ("Paypal Julen: paypal.me/Goldenhunter264",
-              "Paypal Samuel: paypal.me/SamuelHentrics")
 __version__ = "1.0.0"
 __copyright__ = "copyleft"
 __date__ = "21/08/02"
