@@ -389,7 +389,6 @@ def edit_emprunt(id):
         emprunt = cur.fetchone()
         if form.validate_on_submit():
             if request.method == 'POST':
-                print("test")
                 libelle = request.form['libelle']
                 capitaldepart = request.form['capitaldepart']
                 capital = request.form['capital']
@@ -398,13 +397,9 @@ def edit_emprunt(id):
                 periodicite = request.form['periodicite']
                 echeance = request.form['echeance']
                 preteur = request.form['preteur']
-                print("test")
                 try:
-                    print("test")
                     if (datedebut != emprunt['date']) or (int(periodicite) != int(emprunt['periodicite'])) or (
                             int(echeance) != int(emprunt['echeance'])):
-                        print(datedebut, emprunt['date'], periodicite, emprunt['periodicite'], echeance,
-                              emprunt['echeance'])
                         delete_emprunt(id)
                         cur.execute(
                             "INSERT INTO emprunts (libelle, capital_depart, capital,interet,date,periodicite, echeance, "
@@ -472,7 +467,11 @@ def caf():
     refresh_user()
     if 'loggedin' in session:
         cur = conn.cursor(dictionary=True, buffered=True)
-        cur.execute('SELECT * FROM caf GROUP BY annee ORDER BY annee')
+        cur.execute('''SELECT *
+                        FROM caf 
+                        GROUP BY annee 
+                        ORDER BY annee
+                    ''')
         caf = cur.fetchall()
         if not caf:
             cur.execute("INSERT INTO caf (annee,depenses,recettes) VALUES ('%s',1,1)" % datetime.now().year)
