@@ -34,8 +34,8 @@
                             {% for annee in caf %}
                                 <tr>
                                     <td>{{ annee['annee'] }}</td>
-                                    <td><a href="{{ url_for('recettes_caf' ,annee=annee['annee']) }}">{{ annee['recettes'] }}</a></td>
-                                    <td><a href="{{ url_for('depenses_caf' ,annee=annee['annee']) }}">{{ annee['depenses'] }}</a></td>
+                                    <td>{{ annee['recettes'] }}<a href="{{ url_for('recettes_caf' ,annee=annee['annee']) }}"><span class="fe fe-edit-3 fe-12 mr-2"></span></a></td>
+                                    <td>{{ annee['depenses'] }}<a href="{{ url_for('depenses_caf' ,annee=annee['annee']) }}"><span class="fe fe-edit-3 fe-12 mr-2"></span></a></td>
                                     <td>{{ annee['ebf'] }}</td>
                                     <td>{{ annee['annuite'] }}</td>
                                     <td>{{ annee['caf'] }}</td>
