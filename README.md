@@ -6,11 +6,11 @@ Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie 
         la mettre à jour si cela n'est pas déjà fait
 
 Template : TInydash-master
-# Dernière mise à jour (31/05/2021)
+# Dernière mise à jour (07/06/2021)
 
-- Edition emprunt fonctionnel SAUF problème de condition (if avec les "or")
-- Création des fichiers depenses.html.jinja et recettes.html.jinja pour la nouvelle BDD "Caf"
-- Nouvelle BDD pour les float (pour les emprunts, recettes et dépenses)
+  - Correction orthographe
+  - Début modif CAF
+
 
 # Comment importer le projet sur une autre machine ?
 
@@ -60,6 +60,12 @@ Prérequis :
 
 
 # Anciennes mises à jour
+
+Mise à jour du 31/05/2021
+
+    - Edition emprunt fonctionnel SAUF problème de condition (if avec les "or")
+    - Création des fichiers depenses.html.jinja et recettes.html.jinja pour la nouvelle BDD "Caf"
+    - Nouvelle BDD pour les float (pour les emprunts, recettes et dépenses)
 
 Mise à jour du 18/05/2021
 
