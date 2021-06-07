@@ -1,5 +1,5 @@
 {% extends 'base.html.jinja' %}
-{% block title %}Editer un emprunt{% endblock %}
+{% block title %}Éditer un emprunt{% endblock %}
 {% block body %}
     <div class="row align-items-center h-100">
         {% if error %}
@@ -8,7 +8,7 @@
         <form action="{{ url_for('edit_emprunt', id=id) }}" method="post" class="col-lg-6 col-md-8 col-10 mx-auto">
             {{ form.csrf_token }}
             <div class="mx-auto text-center my-4">
-                <h2 class="my-3">Editer un emprunt</h2>
+                <h2 class="my-3">Éditer un emprunt</h2>
             </div>
             <div class="form-group">
                 <label>Libelle</label>
@@ -33,7 +33,7 @@
                     {% endfor %}
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Interet</label>
+                    <label>Intérêt</label>
                     <input type="text" name="interet" class="form-control" value="{{ emprunt["interet"] }}">
                     {% for error in form.interet.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
@@ -49,7 +49,7 @@
                     {% endfor %}
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Preteur</label>
+                    <label>Préteur</label>
                     <input type="text" class="form-control" name="preteur" value="{{ emprunt["preteur"] }}">
                     {% for error in form.preteur.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
@@ -58,14 +58,14 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label>Periodicité</label>
+                    <label>Périodicité</label>
                     <input type="text" name="periodicite" class="form-control" value="{{ emprunt["periodicite"] }}">
                     {% for error in form.periodicite.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Echeance</label>
+                    <label>Échéance</label>
                     <input type="text" class="form-control" name="echeance" value="{{ emprunt["echeance"] }}">
                     {% for error in form.echeance.errors %}
                         <span class="badge badge-danger">{{ error }}</span>
