@@ -1,6 +1,7 @@
 # flaskTresorerie
 
-        Information : ce projet s'est terminé le 30/06/2021, il n'a pas été poursuivi mais la plupart de ses fonctions sont fonctionnelles.
+        Information : ce projet s'est terminé le 30/06/2021, il n'a pas été poursuivi mais la
+        plupart de ses fonctions sont fonctionnelles.
 
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
@@ -56,7 +57,7 @@ Prérequis :
   - Emprunts simulation
 
 **CAF**
-  - Faire fonctionner le code sans avoir à mettre au début UNE année dans la CAF
+  - Restructuration (en cours mais la plupart des fonctions sont fonctionnelles)
 
 **Profils**
   - Bouton admin
