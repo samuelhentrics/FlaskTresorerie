@@ -1,5 +1,8 @@
 # flaskTresorerie
 
+        Information : ce projet s'est terminé le 30/06/2021, il n'a pas été poursuivi mais la plupart de ses fonctions sont fonctionnelles.
+
+
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
         Attention, depuis le 31/05/2021, une nouvelle BDD est disponible veuillez
