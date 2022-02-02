@@ -1,19 +1,17 @@
 # flaskTresorerie
 
-        Information : ce projet s'est terminé le 30/06/2021, il n'a pas été poursuivi mais la
+        Information : ce projet s'est terminé le 02/02/2022, il n'a pas été poursuivi mais la
         plupart de ses fonctions sont fonctionnelles.
 
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
 
-        Attention, depuis le 31/05/2021, une nouvelle BDD est disponible veuillez
-        la mettre à jour si cela n'est pas déjà fait
-
 Template : TInydash-master
-# Dernière mise à jour (07/06/2021)
 
-  - Correction orthographe
-  - Début modif CAF
+# Dernière mise à jour (02/02/2022)
+
+  - Modification de la BDD
+  - Modification des commits sur Github
 
 
 # Comment importer le projet sur une autre machine ?
@@ -64,6 +62,11 @@ Prérequis :
 
 
 # Anciennes mises à jour
+
+Mise à jour du 07/06/2021
+
+  - Correction orthographe
+  - Début modif CAF
 
 Mise à jour du 31/05/2021
 
