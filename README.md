@@ -5,6 +5,7 @@
 
 
 Ce projet Python utilisant Flask a pour but de gérer les finances d'une mairie grâce à un site.
+Projet réalisé au lycée en Terminale (2020-2021)
 
 Template : TInydash-master
 
